@@ -10,7 +10,7 @@ export default function Featured() {
                 <Text style={styles.featuredHeaderText}>Very cool pizza</Text>
                 <Text style={styles.featuredSubText}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Phasellus vitae felis at nisl dictum aliquam. Sed eget lacus at eros lacinia lacinia. Sed ewdawde</Text>
                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                    <Pressable style={styles.featuredButton}>
+                    <Pressable onPress={(e) => console.log("add to cart")} style={styles.featuredButton}>
                         <Text style={{color: 'white', fontSize: 18}}>Add to cart</Text>
                     </Pressable>
                 </View>
@@ -23,8 +23,8 @@ export default function Featured() {
 const styles = StyleSheet.create({
     featuredCard: {
         width: '85%',
-        height: '50%',
-        marginTop: 25,
+        height: '60%',
+        marginTop: 50,
         marginLeft: 'auto',
         marginRight: 'auto',
         backgroundColor: '#ddd',
@@ -55,10 +55,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#001be7',
         width: '80%',
-        height: '10%',
+        height: '25%',
         maxHeight: 50,
         borderRadius: 15,
         textAlign: 'center',
-
+        marginTop: 10,
+        marginBottom: 10,
     }
 })
