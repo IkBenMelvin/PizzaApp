@@ -23,7 +23,8 @@ export default function Featured() {
 const styles = StyleSheet.create({
     featuredCard: {
         width: '85%',
-        height: '60%',
+        height: '50%',
+        maxHeight: 450,
         marginTop: 50,
         marginLeft: 'auto',
         marginRight: 'auto',
