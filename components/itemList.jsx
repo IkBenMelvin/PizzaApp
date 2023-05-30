@@ -11,10 +11,10 @@ export default function ItemList() {
             {pizzas.map(pizza =>
                 <View key={pizza.id} style={styles.pizzaCard}>
                     <Image source={pizza.img} style={styles.pizzaImage}></Image>
-                    <Text>{pizza.name}</Text>
+                    <Text style={styles.pizzaHeader}>{pizza.name}</Text>
                     <View style={styles.pizzaIngredients}>
                     </View>
-                    <Text>{pizza.price}</Text>
+                    <Text style={styles.pizzaSubtext}>{pizza.price}</Text>
                 </View>
             )}
       </View>
@@ -31,17 +31,22 @@ const styles = StyleSheet.create({
     },
     pizzaContainer: {
         flex: 1,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        alignItems: 'flex-start',
+        justifyContent: 'space-evenly',
         width: '100%',
         height: '100%',
         minHeight: 400,
+        maxHeight: 1000,
     },
     pizzaCard: {
         // width: '30%',
         // height: '15%',
-        width: '45%',
+        width: '40%',
         height: '60%',
-        minHeight: 200,
-        maxHeight: 300,
+        minHeight: 150,
+        maxHeight: 250,
         backgroundColor: '#ddd',
         margin: 10,
         borderRadius: 10,
@@ -51,5 +56,14 @@ const styles = StyleSheet.create({
         height: '50%',
         borderTopRightRadius: 10,
         borderTopLeftRadius: 10,
+    },
+    pizzaHeader: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginLeft: 5,
+    },
+    pizzaSubtext: {
+        fontSize: 16,
+        marginLeft: 5,
     }
 });
