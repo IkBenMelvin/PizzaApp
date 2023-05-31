@@ -37,6 +37,8 @@ export default function Featured() {
         } else {
             await AsyncStorage.setItem('cart', JSON.stringify([{id: pizzaId, name: pizzaName, price: pizzaPrice, quantity: 1}]));
         }
+        // ClearCart();
+        GetCart();
     }
 
     return (
