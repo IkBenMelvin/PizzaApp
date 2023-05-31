@@ -17,10 +17,6 @@ export default function App() {
         <Stack.Screen name="Cart" component={CartPage} />
       </Stack.Navigator>
     </NavigationContainer>
-      // <ScrollView>
-      //   <Featured />
-      //   <ItemList />
-      // </ScrollView>
   );
 }
 
