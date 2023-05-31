@@ -4,7 +4,7 @@ import { SafeAreaView, StyleSheet, Text, View, Button, Alert, TextInput, Image, 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Featured() {
-
+    
     async function GetCart() {
         const cart = await AsyncStorage.getItem('cart');
         if (cart) {
@@ -12,13 +12,30 @@ export default function Featured() {
         }
     }
     
+    async function ClearCart() {
+        await AsyncStorage.removeItem('cart');
+        GetCart();
+    }
+
     async function HandleAddToCart(pizzaId, pizzaName, pizzaPrice) {
+        // TODO handle quantity
         const cart = await AsyncStorage.getItem('cart');
-        console.log(cart)
         if (cart) {
-            await AsyncStorage.setItem('cart', JSON.stringify([...JSON.parse(cart), {id: pizzaId, name: pizzaName, price: pizzaPrice}]));
+            const newCart = JSON.parse(cart);
+            let found;
+            [...JSON.parse(cart), {id: pizzaId, name: pizzaName, price: pizzaPrice, quantity: 1}]
+            newCart.forEach((item, idx) => {
+                if (item.id === pizzaId) {
+                    newCart[idx].quantity += 1;
+                    found = true;
+                }
+                found = false;
+            })
+            if (!found) {
+                await AsyncStorage.setItem('cart', JSON.stringify([...JSON.parse(cart), {id: pizzaId, name: pizzaName, price: pizzaPrice, quantity: 1}]));
+            }
         } else {
-            await AsyncStorage.setItem('cart', JSON.stringify([{id: pizzaId, name: pizzaName, price: pizzaPrice}]));
+            await AsyncStorage.setItem('cart', JSON.stringify([{id: pizzaId, name: pizzaName, price: pizzaPrice, quantity: 1}]));
         }
     }
 
