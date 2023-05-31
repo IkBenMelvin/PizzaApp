@@ -9,6 +9,7 @@ export default function HomePage({navigation, route}) {
   return (
     <ScrollView>
       <Featured />
+      {/* <Button onPress={() => navigation.navigate('Login')}></Button> */}
       <ItemList />
     </ScrollView>
   );

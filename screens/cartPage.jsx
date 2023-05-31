@@ -39,7 +39,7 @@ export default function CartPage() {
 
     return (
         <View>
-
+            <Text>Cart Page</Text>
         </View>
   );
 }
