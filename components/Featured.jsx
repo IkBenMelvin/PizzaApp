@@ -14,7 +14,7 @@ export default function Featured() {
     
     async function ClearCart() {
         await AsyncStorage.removeItem('cart');
-        GetCart();
+        console.log("Cleared the cart.")
     }
 
     async function HandleAddToCart(pizzaId, pizzaName, pizzaPrice) {
@@ -25,19 +25,19 @@ export default function Featured() {
             let found;
             [...JSON.parse(cart), {id: pizzaId, name: pizzaName, price: pizzaPrice, quantity: 1}]
             newCart.forEach((item, idx) => {
-                if (item.id === pizzaId) {
+                if (item.id == pizzaId) {
                     newCart[idx].quantity += 1;
                     found = true;
                 }
-                found = false;
             })
             if (!found) {
                 await AsyncStorage.setItem('cart', JSON.stringify([...JSON.parse(cart), {id: pizzaId, name: pizzaName, price: pizzaPrice, quantity: 1}]));
+            } else {
+                await AsyncStorage.setItem('cart', JSON.stringify(newCart));
             }
         } else {
             await AsyncStorage.setItem('cart', JSON.stringify([{id: pizzaId, name: pizzaName, price: pizzaPrice, quantity: 1}]));
         }
-        // ClearCart();
         GetCart();
     }
 
