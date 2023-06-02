@@ -1,9 +1,21 @@
 import React from 'react';
 import {StyleSheet, TextInput, View, Pressable, onPressFunction, Text} from 'react-native';
 
-const Login = () => {
+export default function LoginPage({ navigation }) {
   const [text, onChangeText] = React.useState('Email');
-  const [number, onChangeNumber] = React.useState('');
+  const [number, onChangePassword] = React.useState('');
+
+  async function handleLogin() {
+    const { data, error } = await supabase.auth.signIn({
+      email: text,
+      password: number,
+      // remember_me: true,
+    })
+    if (error) {
+      alert.alert(error.message)
+    }
+    {navigation.navigate("Home")}
+  }
 
   return (
     <View style= {styles.View}>
@@ -15,7 +27,7 @@ const Login = () => {
       <TextInput
         style={styles.input}
         secureTextEntry={true}
-        onChangeText={onChangeNumber}
+        onChangeText={onChangePassword}
         value={number}
         placeholder="password"
         keyboardType="numeric"
@@ -46,5 +58,3 @@ const styles = StyleSheet.create({
     backgroundColor: "grey",
   }
 });
-
-export default Login;
