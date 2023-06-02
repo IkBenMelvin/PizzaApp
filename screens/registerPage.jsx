@@ -1,12 +1,13 @@
 import React from 'react';
 import {StyleSheet, TextInput, View, Pressable, Alert, Text} from 'react-native';
+import supabase from '../utils/supabase';
 
 export default function RegisterPage({ navigation }) {
   const [email, onChangeEmail] = React.useState('');
   const [password, onChangePassword] = React.useState('');
 
   async function handleRegister() {
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signUp({
       email: email,
       password: password,
     })
@@ -30,8 +31,8 @@ export default function RegisterPage({ navigation }) {
         value={password}
         placeholder="password"
       />
-      <Pressable style={styles.Pressable} onPress={handleLogin}>
-        <Text>Login</Text>
+      <Pressable style={styles.Pressable} onPress={handleRegister}>
+        <Text>Sign up</Text>
       </Pressable>
     </View>
   );
