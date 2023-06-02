@@ -9,7 +9,7 @@ import Navbar from '../components/navBar';
 export default function HomePage({navigation, route}) {
   return (
     <ScrollView>
-      <Navbar />
+      <Navbar navigation={navigation} />
       <Featured />
       {/* <Button onPress={() => navigation.navigate('Login')}></Button> */}
       <ItemList />

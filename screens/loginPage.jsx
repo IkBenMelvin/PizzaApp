@@ -1,21 +1,20 @@
 import React from 'react';
 import {StyleSheet, TextInput, View, Pressable, Alert, Text} from 'react-native';
+import supabase from "../utils/supabase"
 
 export default function LoginPage({ navigation }) {
-  const email = React.useRef();
-  const [text, onChangeText] = React.useState('Email');
-  const [number, onChangePassword] = React.useState('');
+  const [email, onChangeEmail] = React.useState('');
+  const [password, onChangePassword] = React.useState('');
 
   async function handleLogin() {
-    console.log(email.current.value)
-    // const { data, error } = await supabase.auth.signIn({
-    //   email: text,
-    //   password: number,
-    //   // remember_me: true,
-    // })
-    // if (error) {
-    //   alert.alert(error.message)
-    // }
+    const { data, error } = await supabase.auth.signIn({
+      email: email,
+      password: password,
+      // remember_me: true,
+    })
+    if (error) {
+      // Alert.alert('Error', error.message)
+    }
     // {navigation.navigate("Home")}
   }
 
@@ -23,13 +22,14 @@ export default function LoginPage({ navigation }) {
     <View style= {styles.View}>
       <TextInput
         style={styles.input}
-        ref={email}
+        onChangeText={onChangeEmail}
+        value={email}
       />
       <TextInput
         style={styles.input}
         secureTextEntry={true}
         onChangeText={onChangePassword}
-        value={number}
+        value={password}
         placeholder="password"
         keyboardType="numeric"
       />
