@@ -13,6 +13,7 @@ export default function LoginPage({ navigation }) {
     })
     if (error) {
       Alert.alert('Error', error.message)
+      return;
     }
     {navigation.navigate("Home")}
   }

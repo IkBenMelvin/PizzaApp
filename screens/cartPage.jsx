@@ -4,10 +4,12 @@ import { SafeAreaView, StyleSheet, Text, View, Button, Alert, TextInput, Image, 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function CartPage() {
+    const [cartItems, setCartItems] = React.useState([]);
+
     async function GetCart() {
         const cart = await AsyncStorage.getItem('cart');
         if (cart) {
-            console.log(cart);
+            setCartItems(cart);
         }
     }
 
@@ -37,9 +39,13 @@ export default function CartPage() {
         GetCart();
     }
 
+    React.useEffect(() => {
+        GetCart();
+    })
+
     return (
         <View>
-            <Text>Cart Page</Text>
+            {console.log(cartItems)}
         </View>
   );
 }
