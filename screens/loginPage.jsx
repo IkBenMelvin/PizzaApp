@@ -7,15 +7,14 @@ export default function LoginPage({ navigation }) {
   const [password, onChangePassword] = React.useState('');
 
   async function handleLogin() {
-    const { data, error } = await supabase.auth.signIn({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email: email,
       password: password,
-      // remember_me: true,
     })
     if (error) {
-      // Alert.alert('Error', error.message)
+      Alert.alert('Error', error.message)
     }
-    // {navigation.navigate("Home")}
+    {navigation.navigate("Home")}
   }
 
   return (
@@ -31,7 +30,6 @@ export default function LoginPage({ navigation }) {
         onChangeText={onChangePassword}
         value={password}
         placeholder="password"
-        keyboardType="numeric"
       />
       <Pressable style={styles.Pressable} onPress={handleLogin}>
         <Text>Login</Text>
