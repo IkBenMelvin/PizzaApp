@@ -1,12 +1,12 @@
 import React from 'react';
 import {StyleSheet, TextInput, View, Pressable, Alert, Text} from 'react-native';
-import supabase from '../utils/supabase';
+import supabase from '../supabase.js';
 
 export default function RegisterPage({ navigation }) {
   const [email, onChangeEmail] = React.useState('');
   const [password, onChangePassword] = React.useState('');
 
-  async function handleRegister() {
+  async function handleSignUp() {
     const { data, error } = await supabase.auth.signUp({
       email: email,
       password: password,
@@ -14,7 +14,7 @@ export default function RegisterPage({ navigation }) {
     if (error) {
       Alert.alert('Error', error.message)
     }
-    {navigation.navigate("Home")}
+    return navigation.navigate("Home")
   }
 
   return (
