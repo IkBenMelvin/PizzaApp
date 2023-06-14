@@ -48,7 +48,7 @@ export default function Featured() {
                 <Text style={styles.featuredHeaderText}>Very cool pizza</Text>
                 <Text style={styles.featuredSubText}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Phasellus vitae felis at nisl dictum aliquam. Sed eget lacus at eros lacinia lacinia. Sed ewdawde</Text>
                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                    <Pressable onPress={(e) => HandleAddToCart(1, 'Very cool pizza', 20)} style={styles.featuredButton}>
+                    <Pressable onPress={(e) => HandleAddToCart(2, 'Awesome margerita pizza', 10)} style={styles.featuredButton}>
                         <Text style={{color: 'white', fontSize: 18}}>Add to cart</Text>
                     </Pressable>
                 </View>
