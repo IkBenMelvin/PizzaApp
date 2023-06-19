@@ -1,12 +1,15 @@
 import React from 'react';
 import {StyleSheet, TextInput, View, Pressable, Alert, Text, Image} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from "expo-file-system";
+import { decode } from 'base64-arraybuffer'
 import supabase from "../../supabase.js"
 
 export default function AddPizzaAdmin({ navigation }) {
     const [name, setName] = React.useState("");
     const [description, setDescription] = React.useState("");
     const [price, setPrice] = React.useState("");
+    const [image, setImage] = React.useState("");
 
     async function GetPizzaImage() {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -16,26 +19,77 @@ export default function AddPizzaAdmin({ navigation }) {
             quality: 1,
           });
         if (!result.canceled) {
-            console.log(result.assets[0].uri)
-
-            const { data, error } = await supabase.storage.from('images').upload(result.assets[0].fileName, result.assets[0].uri);
-            console.log(data, error);
+            setImage(result.assets[0].uri)
         }
     }
 
+    async function createPizza() {
+        const {data, error} = await supabase.from('pizzas').insert([{
+            name: name,
+            description: description,
+            price: price,
+            ingredients: [],
+            sizes: [25, 30, 35]
+        }]).select();
+        const fileb64 = await FileSystem.readAsStringAsync(
+            image,
+            {
+              encoding: FileSystem.EncodingType.Base64,
+            }
+        );
 
-    React.useEffect(() => {
-        GetPizzaImage();
-    })
+        const upload = await supabase.storage.from('images').upload(`${data[0].id}.jpg`, decode(fileb64), {
+            contentType: 'image/jpeg',
+        });
+        Alert.alert("Pizza added!");
+        navigation.navigate("PizzaAdmin");
+    }
 
     return (
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 50}}>
-            <TextInput onChangeText={text => setName(text)}/>
-            <TextInput multiline={true} numberOfLines={4} onChangeText={text => setDescription(text)}/>
-            <TextInput onChangeText={text => setPrice(text)}/>
+            <TextInput style={styles.pizzaInput} onChangeText={text => setName(text)}/>
+            <TextInput style={styles.pizzaInput} multiline={true} numberOfLines={4} onChangeText={text => setDescription(text)}/>
+            <TextInput style={styles.pizzaInput} onChangeText={text => setPrice(text)}/>
+            <Pressable style={image.length > 0 ? styles.selectedButton : styles.submitButton} onPress={() => GetPizzaImage()}>
+                {image.length > 0 ? <Text style={{color: "white"}}>Change image</Text> : <Text style={{color: 'white'}}>Select image</Text>}
+            </Pressable>
+            <Pressable style={styles.submitButton} onPress={() => createPizza()}>
+                <Text style={{color: 'white'}}>Add pizza</Text>
+            </Pressable>
         </View>
     )
 };
 
 const styles = StyleSheet.create({
+    pizzaInput: {
+        borderColor: 'black',
+        borderWidth: 1,
+        borderRadius: 5,
+        padding: 5,
+        margin: 10,
+        width: '80%',
+        height: 40,
+    },
+    submitButton: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 5,
+        margin: 10,
+        backgroundColor: '#3282B8',
+        borderRadius: 5,
+        width: '40%',
+        maxHeight: 40
+    }, 
+    selectedButton: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 5,
+        margin: 10,
+        backgroundColor: '#0F4C75',
+        borderRadius: 5,
+        width: '40%',
+        maxHeight: 40
+    }
 });
