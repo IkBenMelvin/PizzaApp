@@ -24,13 +24,14 @@ export default function AddPizzaAdmin({ navigation }) {
     }
 
     async function createPizza() {
-        const {data, error} = await supabase.from('pizzas').insert([{
+        // ! Fix deze shit
+        const {data, error} = await supabase.from('pizzas').insert({
             name: name,
             description: description,
             price: price,
             ingredients: [],
             sizes: [25, 30, 35]
-        }]).select();
+        }).select();
         const fileb64 = await FileSystem.readAsStringAsync(
             image,
             {
@@ -38,17 +39,20 @@ export default function AddPizzaAdmin({ navigation }) {
             }
         );
 
-        const upload = await supabase.storage.from('images').upload(`${data[0].id}.jpg`, decode(fileb64), {
-            contentType: 'image/jpeg',
+        await supabase.storage.from('images').upload(`${data[0].id}.png`, decode(fileb64), {
+            contentType: 'image/png',
         });
         Alert.alert("Pizza added!");
-        navigation.navigate("PizzaAdmin");
+        // navigation.navigate("PizzaAdmin");
     }
 
     return (
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 50}}>
+            <Text>Name</Text>
             <TextInput style={styles.pizzaInput} onChangeText={text => setName(text)}/>
+            <Text>Description</Text>
             <TextInput style={styles.pizzaInput} multiline={true} numberOfLines={4} onChangeText={text => setDescription(text)}/>
+            <Text>Price</Text>
             <TextInput style={styles.pizzaInput} onChangeText={text => setPrice(text)}/>
             <Pressable style={image.length > 0 ? styles.selectedButton : styles.submitButton} onPress={() => GetPizzaImage()}>
                 {image.length > 0 ? <Text style={{color: "white"}}>Change image</Text> : <Text style={{color: 'white'}}>Select image</Text>}
