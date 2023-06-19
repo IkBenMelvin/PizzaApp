@@ -7,7 +7,7 @@ export default function LoginPage({ navigation }) {
   const [password, onChangePassword] = React.useState('');
 
   async function handleLogin() {
-    const { data ,error } = await supabase.auth.signInWithPassword({
+    const { data , error } = await supabase.auth.signInWithPassword({
       email: email,
       password: password,
     })

@@ -1,16 +1,28 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView, StyleSheet, Text, View, Button, Alert, TextInput, Image, Pressable } from 'react-native';
+import supabase from '../supabase';
 
 export default function ItemList() {
-    const [pizzas, setPizzas] = React.useState([{id: 1, name: "Margerita", ingredients: [], price: 20, img: require("../assets/images/placeholder.jpg")}, {id: 2, name: "Pepperoni", ingredients: [], price: 20, img: require("../assets/images/pepperoni.jpeg")}]);
+    const [pizzas, setPizzas] = React.useState([]);
+    const baseURL = "https://xbxjnbuwdqtdstrkqcpa.supabase.co/storage/v1/object/public/images/";
+
+    async function getAllPizzas() {
+        const allPizzas = await supabase.from('pizzas').select('*');
+        setPizzas(allPizzas.data);
+    }
+
+    React.useEffect(() => {
+        getAllPizzas();
+    }, [])
+
     return (
         <View>
         <Text style={styles.allItemsText}>Choose from all pizzas:</Text>
             <View style={styles.pizzaContainer}>
                 {pizzas.map(pizza =>
                     <View key={pizza.id} style={styles.pizzaCard}>
-                        <Image source={pizza.img} style={styles.pizzaImage}></Image>
+                        <Image source={{uri: `${baseURL}${pizza.id}`}} style={styles.pizzaImage}></Image>
                         <Text style={styles.pizzaHeader}>{pizza.name}</Text>
                         <View style={styles.pizzaIngredients}>
                         </View>
