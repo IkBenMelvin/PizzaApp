@@ -24,7 +24,6 @@ export default function AddPizzaAdmin({ navigation }) {
     }
 
     async function createPizza() {
-        // ! Fix deze shit
         const {data, error} = await supabase.from('pizzas').insert({
             name: name,
             description: description,
@@ -42,7 +41,6 @@ export default function AddPizzaAdmin({ navigation }) {
         await supabase.storage.from('images').upload(`${data[0].id}.png`, decode(fileb64), {
             contentType: 'image/png',
         });
-        Alert.alert("Pizza added!");
         // navigation.navigate("PizzaAdmin");
     }
 

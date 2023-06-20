@@ -37,11 +37,6 @@ export default function CartPage() {
                 await AsyncStorage.setItem('cart', JSON.stringify(cartArray));
             }
         }
-        //     const itemIndex = cartArray.findIndex(i => i === itemId);
-        //     cartArray[itemIndex].quantity = newQuantity;
-        //     await AsyncStorage.setItem('cart', JSON.stringify(cartArray));
-        //     // GetCart();
-        // }
     }
 
     async function DeleteItem(itemId) {
@@ -58,10 +53,6 @@ export default function CartPage() {
         await AsyncStorage.removeItem('cart');
         // GetCart();
     }
-
-    React.useEffect(() => {
-        GetCart();
-    }, [])
 
     return (
         <View style={styles.mainContainer}>
