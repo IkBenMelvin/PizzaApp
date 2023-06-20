@@ -43,7 +43,7 @@ const CartScreen = () => {
                     }
                 })
                 setCartItems(cartArray);
-                setTotalPrice(JSON.parse(cart).reduce(
+                setTotalPrice(cartArray.reduce(
                   (total, item) => total + item.price * item.quantity,
                   0
                 ));
@@ -55,7 +55,7 @@ const CartScreen = () => {
                     }
                 })
                 setCartItems(cartArray);
-                setTotalPrice(JSON.parse(cart).reduce(
+                setTotalPrice(cartArray.reduce(
                   (total, item) => total + item.price * item.quantity,
                   0
                 ));
@@ -81,7 +81,7 @@ const CartScreen = () => {
     async function ClearCart() {
         setTotalPrice(0);
         await AsyncStorage.removeItem('cart');
-        // GetCart();
+        GetCart();
     }
 
     function confirmClear() {
@@ -94,7 +94,7 @@ const CartScreen = () => {
                    onPress: () => console.log("Cancel Pressed"),
                    style: "cancel"
               },
-              { text: "OK", onPress: () => ClearCart() }
+              { text: "Clear", onPress: () => ClearCart() }
           ]
       );
     
@@ -122,7 +122,7 @@ const CartScreen = () => {
                 Price: ${item.price.toFixed(2)}
               </Text>
               <Text style={styles.itemSubline}>
-                Ingredients: {item.ingredients}
+                Ingredients: {item.ingredients.join(", ")}
               </Text>
             </View>
             <View style={styles.quantityContainer}>

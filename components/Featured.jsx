@@ -17,13 +17,13 @@ export default function Featured() {
         console.log("Cleared the cart.")
     }
 
-    async function HandleAddToCart(pizzaId, pizzaName, pizzaPrice) {
+    async function HandleAddToCart(pizzaId, pizzaName, pizzaPrice, ingredients) {
         // TODO handle quantity
         const cart = await AsyncStorage.getItem('cart');
         if (cart) {
             const newCart = JSON.parse(cart);
             let found;
-            [...JSON.parse(cart), {id: pizzaId, name: pizzaName, price: pizzaPrice, quantity: 1}]
+            [...JSON.parse(cart), {id: pizzaId, name: pizzaName, price: pizzaPrice, quantity: 1, ingredients, ingredients}]
             newCart.forEach((item, idx) => {
                 if (item.id == pizzaId) {
                     newCart[idx].quantity += 1;
@@ -31,12 +31,12 @@ export default function Featured() {
                 }
             })
             if (!found) {
-                await AsyncStorage.setItem('cart', JSON.stringify([...JSON.parse(cart), {id: pizzaId, name: pizzaName, price: pizzaPrice, quantity: 1}]));
+                await AsyncStorage.setItem('cart', JSON.stringify([...JSON.parse(cart), {id: pizzaId, name: pizzaName, price: pizzaPrice, quantity: 1, ingredients: ingredients}]));
             } else {
                 await AsyncStorage.setItem('cart', JSON.stringify(newCart));
             }
         } else {
-            await AsyncStorage.setItem('cart', JSON.stringify([{id: pizzaId, name: pizzaName, price: pizzaPrice, quantity: 1}]));
+            await AsyncStorage.setItem('cart', JSON.stringify([{id: pizzaId, name: pizzaName, price: pizzaPrice, quantity: 1, ingredients: ingredients}]));
         }
         GetCart();
     }
@@ -48,7 +48,7 @@ export default function Featured() {
                 <Text style={styles.featuredHeaderText}>Very cool pizza</Text>
                 <Text style={styles.featuredSubText}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Phasellus vitae felis at nisl dictum aliquam. Sed eget lacus at eros lacinia lacinia. Sed ewdawde</Text>
                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                    <Pressable onPress={(e) => HandleAddToCart(2, 'Awesome margerita pizza', 10)} style={styles.featuredButton}>
+                    <Pressable onPress={(e) => HandleAddToCart(2, 'Awesome margerita pizza', 10, ["Tomato sauce", "Mozzeralla", "Basil"])} style={styles.featuredButton}>
                         <Text style={{color: 'white', fontSize: 18}}>Add to cart</Text>
                     </Pressable>
                 </View>
