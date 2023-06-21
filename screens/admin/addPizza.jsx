@@ -3,11 +3,11 @@ import {StyleSheet, TextInput, View, Pressable, Alert, Text, Image} from 'react-
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from "expo-file-system";
 import { decode } from 'base64-arraybuffer'
-import supabase from "../../supabase.js"
+import supabase from "../../utils/supabase.js"
 
 export default function AddPizzaAdmin({ navigation }) {
     const [name, setName] = React.useState("");
-    const [description, setDescription] = React.useState("");
+    const [ingredients, setIngredients] = React.useState("");
     const [price, setPrice] = React.useState("");
     const [image, setImage] = React.useState("");
 
@@ -26,10 +26,8 @@ export default function AddPizzaAdmin({ navigation }) {
     async function createPizza() {
         const {data, error} = await supabase.from('pizzas').insert({
             name: name,
-            description: description,
             price: price,
-            ingredients: [],
-            sizes: [25, 30, 35]
+            ingredients: ingredients.split(","),
         }).select();
         const fileb64 = await FileSystem.readAsStringAsync(
             image,
@@ -38,18 +36,18 @@ export default function AddPizzaAdmin({ navigation }) {
             }
         );
 
-        await supabase.storage.from('images').upload(`${data[0].id}.png`, decode(fileb64), {
+        await supabase.storage.from('images').upload(`${data[0].id}`, decode(fileb64), {
             contentType: 'image/png',
         });
-        // navigation.navigate("PizzaAdmin");
+        navigation.navigate("Home");
     }
 
     return (
         <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 50}}>
             <Text>Name</Text>
             <TextInput style={styles.pizzaInput} onChangeText={text => setName(text)}/>
-            <Text>Description</Text>
-            <TextInput style={styles.pizzaInput} multiline={true} numberOfLines={4} onChangeText={text => setDescription(text)}/>
+            <Text>Ingredients (seperate using ,)</Text>
+            <TextInput style={styles.pizzaInput} multiline={true} numberOfLines={4} onChangeText={text => setIngredients(text)}/>
             <Text>Price</Text>
             <TextInput style={styles.pizzaInput} onChangeText={text => setPrice(text)}/>
             <Pressable style={image.length > 0 ? styles.selectedButton : styles.submitButton} onPress={() => GetPizzaImage()}>

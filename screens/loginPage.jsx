@@ -1,22 +1,33 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Pressable, Alert } from 'react-native';
-import supabase from "../supabase.js"
+import supabase from "../utils/supabase.js"
 
 const LoginPage = ( { navigation} ) => {
-    const [email, onChangeEmail] = React.useState('');
-    const [password, onChangePassword] = React.useState('');
-  
-    async function handleLogin() {
-      const { data , error } = await supabase.auth.signInWithPassword({
-        email: email,
-        password: password,
-      })
-      if (error) {
-        Alert.alert('Error', error.message)
-        return;
-      }
-      return navigation.navigate("Home")
+  const [email, onChangeEmail] = React.useState('');
+  const [password, onChangePassword] = React.useState('');
+
+  async function handleLogin() {
+    const { data , error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    })
+    if (error) {
+      Alert.alert('Error', error.message)
+      return;
     }
+    return navigation.navigate("Home")
+  }
+
+  async function getSession() {
+    const { data, error} = await supabase.auth.getSession();
+    if (data.session) {
+      navigation.navigate("Home")
+    }
+  }
+
+  React.useEffect(() => {
+    getSession();
+  })
 
   return (
     <View style={styles.container}>

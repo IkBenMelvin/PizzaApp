@@ -1,7 +1,7 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView, StyleSheet, Text, View, Button, Alert, TextInput, Image, Pressable } from 'react-native';
-import supabase from '../supabase';
+import supabase from '../utils/supabase';
 
 export default function ItemList() {
     const [pizzas, setPizzas] = React.useState([]);

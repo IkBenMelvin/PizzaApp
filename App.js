@@ -3,19 +3,20 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView, StyleSheet, Text, View, Button, Alert, TextInput, ScrollView } from 'react-native';
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import CartPage from './screens/cartPage';
+// Main screens
 import HomePage from './screens/homePage';
 import LoginPage from './screens/loginPage';
 import RegisterPage from './screens/registerPage';
+import CartScreen from './screens/cartPage';
+// Admin
 import AddPizzaAdmin from './screens/admin/addPizza';
-import CartScreen from './screens/cart2';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName='Login'>
         <Stack.Screen name="Home" component={HomePage} />
         <Stack.Screen name="Register" component={RegisterPage} />
         <Stack.Screen name="Login" component={LoginPage} />

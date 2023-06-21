@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, TextInput, View, Pressable, Alert, Text} from 'react-native';
-import supabase from '../supabase.js';
+import supabase from '../utils/supabase.js';
 
 export default function RegisterPage({ navigation }) {
   const [email, onChangeEmail] = React.useState('');
