@@ -18,8 +18,8 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName='Login'>
         <Stack.Screen name="Home" component={HomePage} />
-        <Stack.Screen name="Register" component={RegisterPage} />
         <Stack.Screen name="Login" component={LoginPage} />
+        <Stack.Screen name="Register" component={RegisterPage} />
         <Stack.Screen name="Cart" component={CartScreen} />
         { /* Admin section*/ }
         <Stack.Screen name="AddPizza" component={AddPizzaAdmin} />
@@ -27,12 +27,3 @@ export default function App() {
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#121212',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

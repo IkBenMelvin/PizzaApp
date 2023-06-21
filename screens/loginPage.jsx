@@ -54,7 +54,7 @@ const LoginPage = ( { navigation} ) => {
         <Text style={styles.loginButtonText}>Log In</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.registerButton}>
+      <TouchableOpacity style={styles.registerButton} onPress={() => navigation.navigate("Register")}>
         <Text style={styles.registerButtonText}>Register</Text>
       </TouchableOpacity>
 
@@ -85,6 +85,8 @@ const styles = StyleSheet.create({
     width: 250,
     height: 40,
     backgroundColor: '#fff',
+    borderColor: '#3282B8',
+    borderWidth: 2,
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 10,
