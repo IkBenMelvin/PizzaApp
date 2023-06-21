@@ -17,6 +17,11 @@ export default function HomePage({navigation, route}) {
     }
   }
 
+  async function Logout() {
+    await supabase.auth.signOut()
+    navigation.navigate('Login')
+  }
+
   React.useEffect(() => {
     GetSession()
   })
@@ -25,6 +30,7 @@ export default function HomePage({navigation, route}) {
     <ScrollView>
       <Navbar navigation={navigation} />
       <Button title='hi' onPress={() => navigation.navigate('AddPizza')}></Button>
+      <Button title='lol' onPress={() => Logout()}></Button>
       <Featured />
       <ItemList />
     </ScrollView>

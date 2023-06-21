@@ -11,20 +11,21 @@ const RegistrationForm = ({ navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
 
   async function handleSignUp() {
+    let currentUser;
     await supabase.auth.signUp({
       email: email,
       password: password,
     }).then(async (data) => {
-      await supabase.from('users').insert({
-        id: data.data.session.user.id,
-        name: name,
-        email: email,
-        street: street,
-        postal: postalCode,
-        number: phoneNumber
-      })
-    navigation.navigate("Home")
+      currentUser = data.data.user.id;
     });
+    await supabase.from('users').insert({
+      id: currentUser,
+      name: name,
+      email: email,
+      street: street,
+      postal: postalCode,
+      number: phoneNumber
+    })
   }
 
   async function getSession() {
