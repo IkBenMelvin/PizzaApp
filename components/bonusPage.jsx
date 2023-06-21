@@ -21,7 +21,7 @@ const BonusScreen = () => {
   }, []);
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.view}>
       <Text style={styles.allItemsText}>Pizza's in the bonus:</Text>
 
       <View style={styles.pizzaContainer}>
@@ -41,6 +41,7 @@ const BonusScreen = () => {
 };
 
 const styles = {
+
   allItemsText: {
     marginTop: 20,
     marginLeft: 15,
@@ -56,16 +57,17 @@ const styles = {
     width: '100%',
     height: '100%',
     minHeight: 400,
-    maxHeight: 1000,
+    maxHeight: 650,
   },
   pizzaCard: {
-    width: '40%',
-    height: '60%',
-    minHeight: 150,
-    maxHeight: 250,
-    backgroundColor: '#ddd',
-    margin: 10,
-    borderRadius: 10,
+     width: '40%',
+     height: '60%',
+     minHeight: 150,
+     maxHeight: 250,
+     backgroundColor: '#ddd',
+     margin: 10,
+     borderRadius: 10,
+     padding: 10,
   },
   pizzaImage: {
     width: '100%',

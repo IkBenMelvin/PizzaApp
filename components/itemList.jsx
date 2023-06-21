@@ -21,7 +21,7 @@ const ItemList = () => {
   }, []);
 
   return (
-    <ScrollView>
+    <ScrollView stle={styles.view}>
       <Text style={styles.allItemsText}>Choose from all pizzas:</Text>
 
       <View style={styles.pizzaContainer}>
@@ -41,6 +41,9 @@ const ItemList = () => {
 };
 
 const styles = {
+  view: {
+  marginTop: -200,
+  },
   allItemsText: {
     marginTop: 5,
     marginLeft: 15,
