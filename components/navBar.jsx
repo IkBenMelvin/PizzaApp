@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, Text, View,} from 'react-native';
 import { Link } from '@react-navigation/native';
 
 const Navbar = ( {navigation} ) => {

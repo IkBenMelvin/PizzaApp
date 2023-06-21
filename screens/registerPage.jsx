@@ -1,58 +1,139 @@
-import React from 'react';
-import {StyleSheet, TextInput, View, Pressable, Alert, Text} from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 
-export default function RegisterPage({ navigation }) {
-  const [email, onChangeEmail] = React.useState('');
-  const [password, onChangePassword] = React.useState('');
+const RegistrationForm = () => {
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const [street, setStreet] = useState('');
+  const [postalCode, setPostalCode] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
 
-  async function handleRegister() {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password,
-    })
-    if (error) {
-      Alert.alert('Error', error.message)
-    }
-    {navigation.navigate("Home")}
-  }
+  const handleRegister = () => {
+    // Handle registration logic here
+    console.log('Registering...');
+  };
 
   return (
-    <View style= {styles.View}>
-      <TextInput
-        style={styles.input}
-        onChangeText={onChangeEmail}
-        value={email}
-      />
-      <TextInput
-        style={styles.input}
-        secureTextEntry={true}
-        onChangeText={onChangePassword}
-        value={password}
-        placeholder="password"
-      />
-      <Pressable style={styles.Pressable} onPress={handleLogin}>
-        <Text>Login</Text>
-      </Pressable>
+    <View style={styles.container}>
+      <Text style={styles.logo}>Registration Form</Text>
+
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          onChangeText={setEmail}
+          value={email}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Name"
+          onChangeText={setName}
+          value={name}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          secureTextEntry
+          onChangeText={setPassword}
+          value={password}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Street"
+          onChangeText={setStreet}
+          value={street}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Postal Code"
+          onChangeText={setPostalCode}
+          value={postalCode}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Phone Number"
+          onChangeText={setPhoneNumber}
+          value={phoneNumber}
+        />
+      </View>
+
+      <TouchableOpacity
+        style={styles.loginButton}
+        onPress={handleRegister}
+      >
+        <Text style={styles.loginButtonText}>Register</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.forgotPasswordButton}>
+        <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.registerButton}>
+        <Text style={styles.ClientButtonText}>Already have an account?</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
+const styles = {
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f2f2f2',
+  },
+  logo: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    marginBottom: 50,
+  },
+  inputContainer: {
+    marginBottom: 20,
+  },
   input: {
+    width: 250,
     height: 40,
-    margin: 12,
+    backgroundColor: '#fff',
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    marginBottom: 10,
+  },
+  loginButton: {
+    backgroundColor: '#3282B8',
+    paddingVertical: 12,
+    width: 250,
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  loginButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+
+  ClientButtonText: {
+      color: '#3282B8',
+      fontSize: 16,
+      fontWeight: 'bold',
+      textAlign: 'center',
+  },
+  forgotPasswordButton: {
+    marginBottom: 20,
+  },
+  forgotPasswordText: {
+    fontSize: 14,
+    color: '#3282B8',
+    textDecorationLine: 'underline',
+  },
+  registerButton: {
+    paddingVertical: 12,
+    width: 250,
+    borderRadius: 5,
     borderWidth: 1,
-    padding: 10,
+    borderColor: '#3282B8',
   },
+};
 
-  Pressable:{
-    marginLeft: 180,
-  },
-
-  View: {
-    marginTop: 100,
-    paddingTop:20,
-    paddingBottom:20,
-    backgroundColor: "grey",
-  }
-});
+export default RegistrationForm;

@@ -3,7 +3,7 @@ import { View, Text, Image, ScrollView } from 'react-native';
 
 import supabase from '../utils/supabase.js';
 
-const ItemList = () => {
+const BonusScreen = () => {
   const [pizzas, setPizzas] = React.useState([]);
   const baseURL = 'https://xbxjnbuwdqtdstrkqcpa.supabase.co/storage/v1/object/public/images/';
 
@@ -22,7 +22,7 @@ const ItemList = () => {
 
   return (
     <ScrollView>
-      <Text style={styles.allItemsText}>Choose from all pizzas:</Text>
+      <Text style={styles.allItemsText}>Pizza's in the bonus:</Text>
 
       <View style={styles.pizzaContainer}>
         {pizzas.map((pizza) => (
@@ -42,7 +42,7 @@ const ItemList = () => {
 
 const styles = {
   allItemsText: {
-    marginTop: 5,
+    marginTop: 20,
     marginLeft: 15,
     fontSize: 30,
     fontWeight: 'bold',
@@ -66,7 +66,6 @@ const styles = {
     backgroundColor: '#ddd',
     margin: 10,
     borderRadius: 10,
-    padding: 10,
   },
   pizzaImage: {
     width: '100%',
@@ -77,12 +76,12 @@ const styles = {
   pizzaHeader: {
     fontSize: 20,
     fontWeight: 'bold',
-    marginTop: 10,
+    marginLeft: 5,
   },
   pizzaSubtext: {
     fontSize: 16,
-    marginTop: 5,
+    marginLeft: 5,
   },
 };
 
-export default ItemList;
+export default BonusScreen;
