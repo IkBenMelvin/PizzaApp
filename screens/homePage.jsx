@@ -16,6 +16,7 @@ export default function HomePage({navigation, route}) {
       <BonusScreen />
       <Button title="order"  onPress={() => navigation.navigate('orders')}></Button>
       <Button title="products"  onPress={() => navigation.navigate('Products')}></Button>
+      <Button title="PizzaAdjust"  onPress={() => navigation.navigate('PizzaAdjust')}></Button>
       <ItemList />
     </ScrollView>
   );
