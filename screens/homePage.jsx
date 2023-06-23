@@ -14,7 +14,8 @@ export default function HomePage({navigation, route}) {
       <Navbar navigation={navigation} />
       <Featured />
       <BonusScreen />
-      {/* <Button onPress={() => navigation.navigate('Login')}></Button> */}
+      <Button title="order"  onPress={() => navigation.navigate('orders')}></Button>
+      <Button title="products"  onPress={() => navigation.navigate('Products')}></Button>
       <ItemList />
     </ScrollView>
   );
