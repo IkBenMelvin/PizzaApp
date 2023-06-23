@@ -54,10 +54,9 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   text: {
-  marginTop:10,
-  marginLeft:10,
-  fontSize:30,
-
+    marginTop:10,
+    marginLeft:10,
+    fontSize:30,
     backgroundColor: 'blue',
     color: 'white',
   },
@@ -72,7 +71,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.58,
     shadowRadius: 16.0,
-    elevation: 24,
+    // elevation: 24,
     marginTop: 35,
     marginLeft: 20,
     height:51,
