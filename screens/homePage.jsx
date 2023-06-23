@@ -10,16 +10,10 @@ import supabase from '../utils/supabase.js';
 export default function HomePage({navigation, route}) {
 
   async function GetSession() {
-    // await supabase.auth.signOut()
     const { data, error } = await supabase.auth.getSession();
     if (!data?.session?.user) {
       return navigation.navigate('Login');
     }
-  }
-
-  async function Logout() {
-    await supabase.auth.signOut()
-    navigation.navigate('Login')
   }
 
   React.useEffect(() => {

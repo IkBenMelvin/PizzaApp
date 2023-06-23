@@ -7,7 +7,7 @@ import supabase from "../../utils/supabase.js"
 import Navbar from '../../components/navBar.jsx';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-const UploadPage = () => {
+const UploadPage = ({navigation}) => {
     const [name, setName] = React.useState("");
     const [ingredients, setIngredients] = React.useState("");
     const [price, setPrice] = React.useState("");
@@ -51,43 +51,46 @@ const UploadPage = () => {
     }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.heading}>Upload Page</Text>
+    <>
+        <Navbar navigation={navigation} />
+        <View style={styles.container}>
+        <Text style={styles.heading}>Upload Page</Text>
 
-      <TouchableOpacity
-        style={styles.fileUploadButton}
-        onPress={() => GetPizzaImage()}
-      >
-        <Ionicons name="cloud-upload" size={24} color="#fff" />
-        <Text style={styles.buttonText}>Choose File</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+            style={styles.fileUploadButton}
+            onPress={() => GetPizzaImage()}
+        >
+            <Ionicons name="cloud-upload" size={24} color="#fff" />
+            <Text style={styles.buttonText}>Choose File</Text>
+        </TouchableOpacity>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Name"
-        value={name}
-        onChangeText={setName}
-      />
+        <TextInput
+            style={styles.input}
+            placeholder="Name"
+            value={name}
+            onChangeText={setName}
+        />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Ingredients (seperate using ,)"
-        value={ingredients}
-        onChangeText={setIngredients}
-      />
+        <TextInput
+            style={styles.input}
+            placeholder="Ingredients (seperate using ,)"
+            value={ingredients}
+            onChangeText={setIngredients}
+        />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Price"
-        value={price}
-        onChangeText={setPrice}
-        multiline
-      />
+        <TextInput
+            style={styles.input}
+            placeholder="Price"
+            value={price}
+            onChangeText={setPrice}
+            multiline
+        />
 
-      <TouchableOpacity style={styles.submitButton} onPress={() => createPizza()}>
-        <Text style={styles.submitButtonText}>Submit</Text>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity style={styles.submitButton} onPress={() => createPizza()}>
+            <Text style={styles.submitButtonText}>Submit</Text>
+        </TouchableOpacity>
+        </View>
+    </>
   );
 };
 
