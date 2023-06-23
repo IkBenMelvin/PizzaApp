@@ -15,17 +15,26 @@ const RegistrationForm = ({ navigation }) => {
     await supabase.auth.signUp({
       email: email,
       password: password,
-    }).then(async (data) => {
+    }).then((data) => {
       currentUser = data.data.user.id;
     });
-    await supabase.from('users').insert({
+    let newphoneNumber = phoneNumber;
+    if (phoneNumber.includes(" ")) {
+      newphoneNumber = phoneNumber.replaceAll(" ", "");
+    }
+    if (newphoneNumber.includes("-")) {
+      newphoneNumber = newphoneNumber.replaceAll("-", "");
+    }
+    const item = await supabase.from('users').insert({
       id: currentUser,
       name: name,
       email: email,
       street: street,
       postal: postalCode,
-      number: phoneNumber
-    })
+      isAdmin: false,
+      number: parseInt(newphoneNumber),
+    });
+    console.log(item.error)
   }
 
   async function getSession() {
