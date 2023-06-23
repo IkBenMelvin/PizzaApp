@@ -14,6 +14,7 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import { StatusBar } from 'expo-status-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Navbar from "../components/navBar";
 
 const CartPage = () => {
     const [cartItems, setCartItems] = React.useState([]);
@@ -110,58 +111,61 @@ const CartPage = () => {
   // Calculate the total price of all items
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.heading}>Cart</Text>
-    
-      <ScrollView style={styles.itemContainer}>
-        {loading ? <Text>Loading...</Text> : (cartItems.map((item) => (
-          <View key={item.id} style={styles.cartItem}>
-            <View style={styles.itemInfo}>
-              <Text style={styles.itemName}>{item.name}</Text>
-              <Text style={styles.itemSubline}>
-                Price: ${item.price.toFixed(2)}
-              </Text>
-              <Text style={styles.itemSubline}>
-                Ingredients: {item.ingredients.join(", ")}
-              </Text>
+    <>
+      <Navbar />
+      <View style={styles.container}>
+        <Text style={styles.heading}>Cart</Text>
+      
+        <ScrollView style={styles.itemContainer}>
+          {loading ? <Text>Loading...</Text> : (cartItems.map((item) => (
+            <View key={item.id} style={styles.cartItem}>
+              <View style={styles.itemInfo}>
+                <Text style={styles.itemName}>{item.name}</Text>
+                <Text style={styles.itemSubline}>
+                  Price: ${item.price.toFixed(2)}
+                </Text>
+                <Text style={styles.itemSubline}>
+                  Ingredients: {item.ingredients.join(", ")}
+                </Text>
+              </View>
+              <View style={styles.quantityContainer}>
+                <TouchableOpacity
+                  style={styles.quantityButton}
+                  onPress={() => UpdateItem(item.id, item.quantity - 1)}
+                >
+                  <AntDesign name="minus" size={16} color="#000" />
+                </TouchableOpacity>
+                <Text style={styles.quantity}>{item.quantity}</Text>
+                <TouchableOpacity
+                  style={styles.quantityButton}
+                  onPress={() => UpdateItem(item.id, item.quantity + 1)}
+                >
+                  <AntDesign name="plus" size={16} color="#000" />
+                </TouchableOpacity>
+              </View>
             </View>
-            <View style={styles.quantityContainer}>
-              <TouchableOpacity
-                style={styles.quantityButton}
-                onPress={() => UpdateItem(item.id, item.quantity - 1)}
-              >
-                <AntDesign name="minus" size={16} color="#000" />
-              </TouchableOpacity>
-              <Text style={styles.quantity}>{item.quantity}</Text>
-              <TouchableOpacity
-                style={styles.quantityButton}
-                onPress={() => UpdateItem(item.id, item.quantity + 1)}
-              >
-                <AntDesign name="plus" size={16} color="#000" />
-              </TouchableOpacity>
-            </View>
-          </View>
-        )
-        ))}
-      </ScrollView>
+          )
+          ))}
+        </ScrollView>
 
-      <View style={styles.footer}>
-        <Text style={styles.totalText}>
-          Total Price: ${totalPrice.toFixed(2)}
-        </Text>
+        <View style={styles.footer}>
+          <Text style={styles.totalText}>
+            Total Price: ${totalPrice.toFixed(2)}
+          </Text>
 
-        <TouchableOpacity style={styles.clearButton} onPress={() => confirmClear()}>
-          <Text style={styles.clearButtonText}>Clear All</Text>
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.clearButton} onPress={() => confirmClear()}>
+            <Text style={styles.clearButtonText}>Clear All</Text>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.checkoutButton}
-          onPress={handleCheckout}
-        >
-          <Text style={styles.checkoutButtonText}>Checkout</Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.checkoutButton}
+            onPress={handleCheckout}
+          >
+            <Text style={styles.checkoutButtonText}>Checkout</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </>
   );
 };
 

@@ -4,6 +4,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from "expo-file-system";
 import { decode } from 'base64-arraybuffer'
 import supabase from "../../utils/supabase.js"
+import Navbar from '../../components/navBar.jsx';
 
 export default function AddPizzaAdmin({ navigation }) {
     const [name, setName] = React.useState("");
@@ -43,20 +44,23 @@ export default function AddPizzaAdmin({ navigation }) {
     }
 
     return (
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 50}}>
-            <Text>Name</Text>
-            <TextInput style={styles.pizzaInput} onChangeText={text => setName(text)}/>
-            <Text>Ingredients (seperate using ,)</Text>
-            <TextInput style={styles.pizzaInput} multiline={true} numberOfLines={4} onChangeText={text => setIngredients(text)}/>
-            <Text>Price</Text>
-            <TextInput style={styles.pizzaInput} onChangeText={text => setPrice(text)}/>
-            <Pressable style={image.length > 0 ? styles.selectedButton : styles.submitButton} onPress={() => GetPizzaImage()}>
-                {image.length > 0 ? <Text style={{color: "white"}}>Change image</Text> : <Text style={{color: 'white'}}>Select image</Text>}
-            </Pressable>
-            <Pressable style={styles.submitButton} onPress={() => createPizza()}>
-                <Text style={{color: 'white'}}>Add pizza</Text>
-            </Pressable>
-        </View>
+        <>
+            <Navbar navigation={navigation} />
+            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 50}}>
+                <Text>Name</Text>
+                <TextInput style={styles.pizzaInput} onChangeText={text => setName(text)}/>
+                <Text>Ingredients (seperate using ,)</Text>
+                <TextInput style={styles.pizzaInput} multiline={true} numberOfLines={4} onChangeText={text => setIngredients(text)}/>
+                <Text>Price</Text>
+                <TextInput style={styles.pizzaInput} onChangeText={text => setPrice(text)}/>
+                <Pressable style={image.length > 0 ? styles.selectedButton : styles.submitButton} onPress={() => GetPizzaImage()}>
+                    {image.length > 0 ? <Text style={{color: "white"}}>Change image</Text> : <Text style={{color: 'white'}}>Select image</Text>}
+                </Pressable>
+                <Pressable style={styles.submitButton} onPress={() => createPizza()}>
+                    <Text style={{color: 'white'}}>Add pizza</Text>
+                </Pressable>
+            </View>
+        </>
     )
 };
 
