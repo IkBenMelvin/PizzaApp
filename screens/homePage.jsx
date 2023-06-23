@@ -28,8 +28,7 @@ export default function HomePage({navigation, route}) {
 
   return (
     <ScrollView>
-      <Navbar navigation={navigation} />
-      <Button title='hi' onPress={() => navigation.navigate('AddPizza')}></Button>
+      <Navbar navigation={navigation}/>
       <Featured />
       <ItemList />
     </ScrollView>

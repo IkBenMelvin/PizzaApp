@@ -11,6 +11,7 @@ import CartScreen from './screens/cartPage';
 // Admin
 import AddPizzaAdmin from './screens/admin/addPizza';
 import LogoutPage from './screens/logoutPage';
+import UploadPage from './screens/admin/upload';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,7 +25,7 @@ export default function App() {
         <Stack.Screen name="Logout" component={LogoutPage} />
         <Stack.Screen name="Cart" component={CartScreen} />
         { /* Admin section*/ }
-        <Stack.Screen name="AddPizza" component={AddPizzaAdmin} />
+        <Stack.Screen name="AddPizza" component={UploadPage} />
       </Stack.Navigator>
     </NavigationContainer>
   );
