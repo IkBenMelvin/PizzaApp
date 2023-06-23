@@ -10,6 +10,7 @@ import RegisterPage from './screens/registerPage';
 import CartScreen from './screens/cartPage';
 // Admin
 import AddPizzaAdmin from './screens/admin/addPizza';
+import LogoutPage from './screens/logoutPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,6 +21,7 @@ export default function App() {
         <Stack.Screen name="Home" component={HomePage} />
         <Stack.Screen name="Login" component={LoginPage} />
         <Stack.Screen name="Register" component={RegisterPage} />
+        <Stack.Screen name="Logout" component={LogoutPage} />
         <Stack.Screen name="Cart" component={CartScreen} />
         { /* Admin section*/ }
         <Stack.Screen name="AddPizza" component={AddPizzaAdmin} />

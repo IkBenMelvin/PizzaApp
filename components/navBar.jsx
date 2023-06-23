@@ -1,11 +1,22 @@
 import React, {useState, useRef } from 'react';
 import { Pressable, StyleSheet, Text, View, Image, ScrollView, Animated } from 'react-native';
 import { Link } from '@react-navigation/native';
+import supabase from '../utils/supabase';
 
 const Navbar = ({ navigation }) => {
   const NavLinks = ["Home", "Register", "Login", "Cart","Profile", "Logout"];
+  const AdminLinks = ["Home", "Dashboard", "Products", "Orders", "Users", "Profile", "Logout"];
   const [expanded, setExpanded] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const heightAnimation = useRef(new Animated.Value(0)).current;
+
+  async function checkAdmin() {
+    const userID = (await supabase.auth.getSession()).data.session.user.id
+    const { data, error } = await supabase.from("users").select("isAdmin").eq("id", userID);
+    if (data[0].isAdmin) {
+      setIsAdmin(true)
+    }
+  }
 
   const toggleHeight = () => {
     const newHeight = expanded ? 0 : 180;
@@ -17,17 +28,26 @@ const Navbar = ({ navigation }) => {
     setExpanded(!expanded);
   };
 
+  React.useEffect(() => {
+    checkAdmin();
+  }, []) 
+
   return (
     <View style={styles.Link}>
       <Animated.View style={[styles.LinkContainer, {width: heightAnimation}]}>
-        {NavLinks.map((link) => {
+        {isAdmin ? AdminLinks.map((link) => {
           return (
             <Pressable key={link} onPress={() => navigation.navigate(link)}>
               <Text numberOfLines={1} style={styles.text}>{link}</Text>
             </Pressable>
           );
+        }) : NavLinks.map((link) => {
+          return (
+            <Pressable key={link} onPress={() => navigation.navigate(link)}>
+              <Text numberOfLines={1} style={styles.adminText}>{link}</Text>
+            </Pressable>
+          );
         })}
-
       </Animated.View>
 
       <Pressable onPress={toggleHeight}>
@@ -46,7 +66,7 @@ const styles = StyleSheet.create({
     zIndex: 2,
   },
   LinkContainer: {
-    backgroundColor: 'blue',
+    backgroundColor: '#1B262C',
     flexDirection: 'column',
     alignItems: 'flex-start',
     marginTop: 25,
@@ -57,11 +77,18 @@ const styles = StyleSheet.create({
     marginTop:10,
     marginLeft:10,
     fontSize:30,
-    backgroundColor: 'blue',
-    color: 'white',
+    backgroundColor: '#1B262C',
+    color: '#3282B8',
+  },
+  adminText: {
+    marginTop:10,
+    marginLeft:10,
+    fontSize:30,
+    backgroundColor: '#1B262C',
+    color: '#0F4C75',
   },
   image: {
-    backgroundColor: 'blue',
+    backgroundColor: '#3282B8',
     tintColor: 'white',
     borderRadius: 10,
     shadowColor: '#000',
