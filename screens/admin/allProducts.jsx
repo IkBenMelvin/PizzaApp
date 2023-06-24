@@ -1,50 +1,45 @@
 import React from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import Navbar from "../../components/navBar";
+import supabase from "../../utils/supabase";
 
 const ProductPage = ( {navigation} ) => {
-  const tableData = [
-    {
-      id: 8,
-      name: "69",
-      price: 1.1,
-      ingredients: "P",
-      bonus: true,
-      created_at: "d",
-    },
-    {
-      id: 78,
-      name: "69",
-      price: 1.1,
-      ingredients: "P",
-      bonus: true,
-      created_at: "d",
-    },
-    {
-      id: 9,
-      name: "69",
-      price: 1.1,
-      ingredients: "P",
-      bonus: true,
-      created_at: "d",
-    },
-    {
-      id: 5,
-      name: "69",
-      price: 1.1,
-      ingredients: "P",
-      bonus: true,
-      created_at: "d",
-    },
-    {
-      id: 7,
-      name: "69",
-      price: 1.1,
-      ingredients: "P",
-      bonus: true,
-      created_at: "d",
-    },
-  ];
+  const [pizzas, setPizzas] = React.useState();
+  const [loading, setLoading] = React.useState(true);
+
+  function formatTimestamp(timestamp) {
+    const dt = new Date(timestamp);
+  
+    // Format the date component as "DD/MM/YY"
+    const dateStr = dt.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "2-digit"
+    });
+  
+    // Format the time component as desired, e.g., "HH:MM:SS"
+    const timeStr = dt.toLocaleTimeString("en-US", {
+      hour12: false,
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit"
+    });
+  
+    // Combine the formatted date and time components
+    const formattedStr = `${dateStr} ${timeStr}`;
+  
+    return formattedStr;
+  }
+  
+  async function fetchData() {
+    const pizzaData = await supabase.from("pizzas").select("*");
+    setPizzas(pizzaData.data);
+    setLoading(false)
+  }
+
+  React.useEffect(() => {
+    fetchData();
+  }, [])
 
   const headers = ["ID", "name", "price", "ingredients",  "bonus", "created_at"];
 
@@ -61,29 +56,29 @@ const ProductPage = ( {navigation} ) => {
   };
 
   const renderRows = () => {
-    return tableData.map((record) => (
+    return pizzas.map((record) => (
       <View style={styles.tableRow} key={record.id}>
         <Text style={styles.rowText}>{record.id}</Text>
         <Text style={styles.rowText}>{record.name}</Text>
         <Text style={styles.rowText}>{record.price}</Text>
-        <Text style={styles.rowText}>{record.created_at}</Text>
-        <Text style={styles.rowText}>{record.ingredients}</Text>
-        <Text style={styles.rowText}>{record.bonus}</Text>
+        <Text style={styles.rowText}>{record.ingredients.join(", ")}</Text>
+        <Text style={styles.rowText}>{record.bonus ? "Yes" : "No"}</Text>
+        <Text style={styles.rowText}>{formatTimestamp(record.created_at)}</Text>
       </View>
     ));
   };
 
   return (
     <>
-        <Navbar navigation={navigation} />
-        <View style={styles.container}>
+      <Navbar navigation={navigation} />
+      <View style={styles.container}>
         <ScrollView horizontal={true}>
-            <ScrollView>
+          <ScrollView>
             {renderHeader()}
-            {renderRows()}
-            </ScrollView>
+            {loading ? <Text>Loading...</Text> : renderRows()}
+          </ScrollView>
         </ScrollView>
-        </View>
+      </View>
     </>
   );
 };
