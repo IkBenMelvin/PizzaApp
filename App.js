@@ -9,6 +9,7 @@ import LoginPage from './screens/loginPage';
 import RegisterPage from './screens/registerPage';
 import LogoutPage from './screens/logoutPage';
 import CartScreen from './screens/cartPage';
+import PizzaAdjust from './screens/pizzaAdjust';
 // Admin
 import UploadPage from './screens/admin/upload';
 import ProductPage from './screens/admin/allProducts';
@@ -26,6 +27,7 @@ export default function App() {
         <Stack.Screen name="Register" component={RegisterPage} />
         <Stack.Screen name="Logout" component={LogoutPage} />
         <Stack.Screen name="Cart" component={CartScreen} />
+        <Stack.Screen name="PizzaDetails" component={PizzaAdjust} />
         { /* Admin section*/ }
         <Stack.Screen name="AddPizza" component={UploadPage} />
         <Stack.Screen name="Products" component={ProductPage} />

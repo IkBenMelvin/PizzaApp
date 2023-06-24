@@ -11,32 +11,26 @@ export default function Featured() {
             console.log(cart);
         }
     }
-    
-    async function ClearCart() {
-        await AsyncStorage.removeItem('cart');
-        console.log("Cleared the cart.")
-    }
 
     async function HandleAddToCart(pizzaId, pizzaName, pizzaPrice, ingredients) {
-        // TODO handle quantity
         const cart = await AsyncStorage.getItem('cart');
         if (cart) {
             const newCart = JSON.parse(cart);
             let found;
-            [...JSON.parse(cart), {id: pizzaId, name: pizzaName, price: pizzaPrice, quantity: 1, ingredients, ingredients}]
+            // [...JSON.parse(cart), {id: pizzaId, name: pizzaName, price: pizzaPrice, quantity: 1, ingredients, ingredients}]
             newCart.forEach((item, idx) => {
-                if (item.id == pizzaId) {
+                if (item.id == pizzaId && item.size == size && item.ingredients == ingredients) {
                     newCart[idx].quantity += 1;
                     found = true;
                 }
             })
             if (!found) {
-                await AsyncStorage.setItem('cart', JSON.stringify([...JSON.parse(cart), {id: pizzaId, name: pizzaName, price: pizzaPrice, quantity: 1, ingredients: ingredients}]));
+                await AsyncStorage.setItem('cart', JSON.stringify([...JSON.parse(cart), {id: pizzaId, name: pizzaName, price: pizzaPrice, quantity: 1, size: size, ingredients: ingredients}]));
             } else {
                 await AsyncStorage.setItem('cart', JSON.stringify(newCart));
             }
         } else {
-            await AsyncStorage.setItem('cart', JSON.stringify([{id: pizzaId, name: pizzaName, price: pizzaPrice, quantity: 1, ingredients: ingredients}]));
+            await AsyncStorage.setItem('cart', JSON.stringify([{id: pizzaId, name: pizzaName, price: pizzaPrice, quantity: 1, size: size, ingredients: ingredients}]));
         }
         GetCart();
     }

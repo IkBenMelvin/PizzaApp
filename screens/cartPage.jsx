@@ -15,6 +15,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { StatusBar } from 'expo-status-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Navbar from "../components/navBar";
+import supabase from "../utils/supabase";
 
 const CartPage = () => {
     const [cartItems, setCartItems] = React.useState([]);
@@ -64,20 +65,6 @@ const CartPage = () => {
             }
         }
     }
-
-    async function DeleteItem(itemId) {
-        const cart = await AsyncStorage.getItem('cart');
-        if (cart) {
-            const cartArray = JSON.parse(cart);
-            const newCartArray = cartArray.filter(i => i !== itemId);
-            setTotalPrice(JSON.parse(cart).reduce(
-              (total, item) => total + item.price * item.quantity,
-              0
-            ));
-            await AsyncStorage.setItem('cart', JSON.stringify(newCartArray));
-            // GetCart();
-        }
-    }
     
     async function ClearCart() {
         setTotalPrice(0);
@@ -85,26 +72,29 @@ const CartPage = () => {
         GetCart();
     }
 
+    
     function confirmClear() {
       Alert.alert(
-          "Clear Cart",
-          "Are you sure you want to clear your cart?",
-          [
-               {
-                   text: "Cancel",
-                   onPress: () => console.log("Cancel Pressed"),
-                   style: "cancel"
-              },
-              { text: "Clear", onPress: () => ClearCart() }
-          ]
-      );
+        "Clear Cart",
+        "Are you sure you want to clear your cart?",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          },
+          { text: "Clear", onPress: () => ClearCart() }
+        ]
+        );
+        
+      }
+
+  async function handleOrder() {
+    const session = await supabase.auth.getSession();
+    const userId = session.data.session.user.id
+      await supabase.from('orders').insert({userId: userId, })
+  }
     
-    }
-
-    async function handleCheckout() {
-
-    }
-
   React.useEffect(() => {
     GetCart();
   }, [])
@@ -117,8 +107,8 @@ const CartPage = () => {
         <Text style={styles.heading}>Cart</Text>
       
         <ScrollView style={styles.itemContainer}>
-          {loading ? <Text>Loading...</Text> : (cartItems.map((item) => (
-            <View key={item.id} style={styles.cartItem}>
+          {loading ? <Text>Loading...</Text> : (cartItems.map((item, idx) => (
+            <View key={idx} style={styles.cartItem}>
               <View style={styles.itemInfo}>
                 <Text style={styles.itemName}>{item.name}</Text>
                 <Text style={styles.itemSubline}>
@@ -159,7 +149,7 @@ const CartPage = () => {
 
           <TouchableOpacity
             style={styles.checkoutButton}
-            onPress={handleCheckout}
+            onPress={() => handleOrder()}
           >
             <Text style={styles.checkoutButtonText}>Checkout</Text>
           </TouchableOpacity>

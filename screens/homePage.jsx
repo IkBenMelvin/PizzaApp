@@ -25,7 +25,7 @@ export default function HomePage({navigation, route}) {
     <Navbar navigation={navigation}/>
     <ScrollView>
       <Featured />
-      <ItemList />
+      <ItemList navigation={navigation} />
     </ScrollView>
     </>
   );
