@@ -5,7 +5,7 @@ import supabase from '../utils/supabase';
 
 const Navbar = ({ navigation }) => {
   const NavLinks = ["Home", "Register", "Login", "Cart","Profile", "Logout"];
-  const AdminLinks = ["Home", "Dashboard", "AddPizza", "Users", "Products", "Orders", "Profile", "Logout"];
+  const AdminLinks = ["Home", "Dashboard", "AddPizza", "Orders", "Products", "Users",  "Profile", "Logout"];
   const [expanded, setExpanded] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const heightAnimation = useRef(new Animated.Value(0)).current;

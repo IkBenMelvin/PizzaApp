@@ -13,6 +13,7 @@ import CartScreen from './screens/cartPage';
 import UploadPage from './screens/admin/upload';
 import ProductPage from './screens/admin/allProducts';
 import OrderPage from './screens/admin/allOrders';
+import UserPage from './screens/admin/allUsers';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +30,7 @@ export default function App() {
         <Stack.Screen name="AddPizza" component={UploadPage} />
         <Stack.Screen name="Products" component={ProductPage} />
         <Stack.Screen name="Orders" component={OrderPage} />
+        <Stack.Screen name="Users" component={UserPage} />
       </Stack.Navigator>
     </NavigationContainer>
   );
