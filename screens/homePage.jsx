@@ -21,10 +21,12 @@ export default function HomePage({navigation, route}) {
   })
 
   return (
+    <>
+    <Navbar navigation={navigation}/>
     <ScrollView>
-      <Navbar navigation={navigation}/>
       <Featured />
       <ItemList />
     </ScrollView>
+    </>
   );
 }

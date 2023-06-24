@@ -11,7 +11,7 @@ const UploadPage = ({navigation}) => {
     const [name, setName] = React.useState("");
     const [ingredients, setIngredients] = React.useState("");
     const [price, setPrice] = React.useState("");
-    const [image, setImage] = React.useState("");
+    const [image, setImage] = React.useState(null);
 
     async function GetPizzaImage() {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -44,7 +44,7 @@ const UploadPage = ({navigation}) => {
         const upload = await supabase.storage.from('images').upload(`${data[0].id}`, decode(fileb64), {
             contentType: 'image/png',
         });
-        if (upload.error) {
+        if (upload?.error) {
             Alert.alert("Error", upload.error.message);
         }
         navigation.navigate("Home");
@@ -61,7 +61,7 @@ const UploadPage = ({navigation}) => {
             onPress={() => GetPizzaImage()}
         >
             <Ionicons name="cloud-upload" size={24} color="#fff" />
-            <Text style={styles.buttonText}>Choose File</Text>
+            {image ? <Text style={styles.buttonText}>Change File</Text> : <Text style={styles.buttonText}>Choose File</Text>}
         </TouchableOpacity>
 
         <TextInput

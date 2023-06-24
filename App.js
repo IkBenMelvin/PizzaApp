@@ -7,11 +7,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomePage from './screens/homePage';
 import LoginPage from './screens/loginPage';
 import RegisterPage from './screens/registerPage';
+import LogoutPage from './screens/logoutPage';
 import CartScreen from './screens/cartPage';
 // Admin
-import AddPizzaAdmin from './screens/admin/addPizza';
-import LogoutPage from './screens/logoutPage';
 import UploadPage from './screens/admin/upload';
+import ProductPage from './screens/admin/allProducts';
+import OrderPage from './screens/admin/allOrders';
 
 const Stack = createNativeStackNavigator();
 
@@ -26,6 +27,8 @@ export default function App() {
         <Stack.Screen name="Cart" component={CartScreen} />
         { /* Admin section*/ }
         <Stack.Screen name="AddPizza" component={UploadPage} />
+        <Stack.Screen name="Products" component={ProductPage} />
+        <Stack.Screen name="Orders" component={OrderPage} />
       </Stack.Navigator>
     </NavigationContainer>
   );
