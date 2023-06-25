@@ -15,6 +15,7 @@ export default function HomePage({navigation, route}) {
       <Featured />
       <BonusScreen />
       <Button title="order"  onPress={() => navigation.navigate('orders')}></Button>
+      <Button title="pizzaOrders"  onPress={() => navigation.navigate('pizzaOrders')}></Button>
       <Button title="products"  onPress={() => navigation.navigate('Products')}></Button>
       <Button title="PizzaAdjust"  onPress={() => navigation.navigate('PizzaAdjust')}></Button>
       <ItemList />

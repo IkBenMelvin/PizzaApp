@@ -10,6 +10,7 @@ import RegisterPage from './screens/registerPage';
 import OrderPage from './screens/orders';
 import ProductPage from './screens/ProductPage';
 import PizzaAdjust from './screens/PizzaAdjust';
+import pizzaOrders from './screens/pizzaOrder';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +25,7 @@ export default function App() {
          <Stack.Screen name="orders" component={OrderPage} />
          <Stack.Screen name="Products" component={ProductPage} />
          <Stack.Screen name="PizzaAdjust" component={PizzaAdjust} />
+         <Stack.Screen name="pizzaOrders" component={pizzaOrders} />
       </Stack.Navigator>
     </NavigationContainer>
   );
