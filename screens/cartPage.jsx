@@ -24,8 +24,6 @@ const CartPage = ( {navigation} ) => {
     const [totalPrice, setTotalPrice] = React.useState(0);
 
     async function GetCart() {
-      const {data, error} = await supabase.from("orders").select("*");
-      console.log(JSON.parse(data[1].pizzas))
         const cart = await AsyncStorage.getItem('cart');
         if (cart) {
             setCartItems(JSON.parse(cart));

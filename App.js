@@ -16,6 +16,7 @@ import ProductPage from './screens/admin/allProducts';
 import OrderPage from './screens/admin/allOrders';
 import UserPage from './screens/admin/allUsers';
 import PizzaList from './screens/admin/pizzaList';
+import EditPizzaPage from './screens/admin/editPizza';
 
 const Stack = createNativeStackNavigator();
 
@@ -31,6 +32,7 @@ export default function App() {
         <Stack.Screen name="PizzaDetails" component={PizzaAdjust} />
         { /* Admin section*/ }
         <Stack.Screen name="AddPizza" component={UploadPage} />
+        <Stack.Screen name="editPizza" component={EditPizzaPage} />
         <Stack.Screen name="Products" component={ProductPage} />
         <Stack.Screen name="Orders" component={OrderPage} />
         <Stack.Screen name="Users" component={UserPage} />

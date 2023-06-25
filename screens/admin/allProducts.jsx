@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
 import Navbar from "../../components/navBar";
 import supabase from "../../utils/supabase";
 
@@ -58,6 +58,9 @@ const ProductPage = ( {navigation} ) => {
   const renderRows = () => {
     return pizzas.map((record) => (
       <View style={styles.tableRow} key={record.id}>
+        <Pressable onPress={() => navigation.navigate("editPizza", {id: record.id})}>
+          <Text style={[styles.rowText, {color: "blue"}]}>Edit</Text>
+        </Pressable>
         <Text style={styles.rowText}>{record.id}</Text>
         <Text style={styles.rowText}>{record.name}</Text>
         <Text style={styles.rowText}>{record.price}</Text>
@@ -70,7 +73,7 @@ const ProductPage = ( {navigation} ) => {
 
   return (
     <>
-      <Navbar navigation={navigation} />
+      {/* <Navbar navigation={navigation} /> */}
       <View style={styles.container}>
         <ScrollView horizontal={true}>
           <ScrollView>
