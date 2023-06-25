@@ -1,16 +1,17 @@
 import React from 'react';
-import {StyleSheet, TextInput, View, Pressable, Alert, Text, Image} from 'react-native';
+import {StyleSheet, TextInput, View, Pressable, Alert, Text, Image, TouchableOpacity, ScrollView} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from "expo-file-system";
 import { decode } from 'base64-arraybuffer'
 import supabase from "../../utils/supabase.js"
 import Navbar from '../../components/navBar.jsx';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
-export default function AddPizzaAdmin({ navigation }) {
+const UploadPage = ({navigation}) => {
     const [name, setName] = React.useState("");
     const [ingredients, setIngredients] = React.useState("");
     const [price, setPrice] = React.useState("");
-    const [image, setImage] = React.useState("");
+    const [image, setImage] = React.useState(null);
 
     async function GetPizzaImage() {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -36,64 +37,118 @@ export default function AddPizzaAdmin({ navigation }) {
               encoding: FileSystem.EncodingType.Base64,
             }
         );
+        if (error) {
+            Alert.alert("Error", error.message);
+        }
 
-        await supabase.storage.from('images').upload(`${data[0].id}`, decode(fileb64), {
+        const upload = await supabase.storage.from('images').upload(`${data[0].id}`, decode(fileb64), {
             contentType: 'image/png',
         });
+        if (upload?.error) {
+            Alert.alert("Error", upload.error.message);
+        }
         navigation.navigate("Home");
     }
 
-    return (
-        <>
-            <Navbar navigation={navigation} />
-            <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 50}}>
-                <Text>Name</Text>
-                <TextInput style={styles.pizzaInput} onChangeText={text => setName(text)}/>
-                <Text>Ingredients (seperate using ,)</Text>
-                <TextInput style={styles.pizzaInput} multiline={true} numberOfLines={4} onChangeText={text => setIngredients(text)}/>
-                <Text>Price</Text>
-                <TextInput style={styles.pizzaInput} onChangeText={text => setPrice(text)}/>
-                <Pressable style={image.length > 0 ? styles.selectedButton : styles.submitButton} onPress={() => GetPizzaImage()}>
-                    {image.length > 0 ? <Text style={{color: "white"}}>Change image</Text> : <Text style={{color: 'white'}}>Select image</Text>}
-                </Pressable>
-                <Pressable style={styles.submitButton} onPress={() => createPizza()}>
-                    <Text style={{color: 'white'}}>Add pizza</Text>
-                </Pressable>
-            </View>
-        </>
-    )
+  return (
+    <>
+        <Navbar navigation={navigation} />
+        <View style={styles.container}>
+        <Text style={styles.heading}>Upload Page</Text>
+
+        <TouchableOpacity
+            style={styles.fileUploadButton}
+            onPress={() => GetPizzaImage()}
+        >
+            <Ionicons name="cloud-upload" size={24} color="#fff" />
+            {image ? <Text style={styles.buttonText}>Change File</Text> : <Text style={styles.buttonText}>Choose File</Text>}
+        </TouchableOpacity>
+
+        <TextInput
+            style={styles.input}
+            placeholder="Name"
+            value={name}
+            onChangeText={setName}
+        />
+
+        <TextInput
+            style={styles.input}
+            placeholder="Ingredients (seperate using ,)"
+            value={ingredients}
+            onChangeText={setIngredients}
+        />
+
+        <TextInput
+            style={styles.input}
+            placeholder="Price"
+            value={price}
+            onChangeText={setPrice}
+            multiline
+        />
+
+        <TouchableOpacity style={styles.submitButton} onPress={() => createPizza()}>
+            <Text style={styles.submitButtonText}>Submit</Text>
+        </TouchableOpacity>
+        </View>
+    </>
+  );
 };
 
 const styles = StyleSheet.create({
-    pizzaInput: {
-        borderColor: 'black',
-        borderWidth: 1,
-        borderRadius: 5,
-        padding: 5,
-        margin: 10,
-        width: '80%',
-        height: 40,
-    },
-    submitButton: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 5,
-        margin: 10,
-        backgroundColor: '#3282B8',
-        borderRadius: 5,
-        width: '40%',
-        maxHeight: 40
-    }, 
-    selectedButton: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 5,
-        margin: 10,
-        backgroundColor: '#0F4C75',
-        borderRadius: 5,
-        width: '40%',
-        maxHeight: 40
-    }
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    paddingHorizontal: 20,
+    paddingTop: 40,
+  },
+  heading: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#3282B8",
+    marginBottom: 20,
+  },
+  fileUploadButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#3282B8",
+    borderRadius: 5,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    marginBottom: 20,
+  },
+  buttonText: {
+    marginLeft: 10,
+    fontSize: 16,
+    color: "#fff",
+  },
+  selectedFileContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  selectedFileText: {
+    marginLeft: 10,
+    fontSize: 16,
+    color: "#3282B8",
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#3282B8",
+    borderRadius: 5,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    marginBottom: 20,
+  },
+  submitButton: {
+    backgroundColor: "#3282B8",
+    borderRadius: 5,
+    paddingVertical: 10,
+    alignItems: "center",
+  },
+  submitButtonText: {
+    fontSize: 16,
+    color: "#fff",
+  },
 });
+
+export default UploadPage;

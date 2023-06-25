@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
 import Navbar from "../../components/navBar";
 import supabase from "../../utils/supabase";
 
@@ -69,7 +69,9 @@ const OrderPage = ( {navigation} ) => {
         <Text style={styles.rowText}>{users.map((user) => user.id === record.userId ? user.street : null)}</Text>
         <Text style={styles.rowText}>{users.map((user) => user.id === record.userId ? user.postal : null)}</Text>
         <Text style={styles.rowText}>{record.progress}</Text>
-        <Text style={styles.rowText}>{record.pizzas.map((pizza) => pizzas.find((p) => p.id === pizza).name + " ")}</Text>
+        <Pressable onPress={() => navigation.navigate("Pizzalist", {id: record.id})}>
+          <Text style={styles.rowText}>{JSON.parse(record.pizzas).name}</Text>
+        </Pressable>
         <Text style={styles.rowText}>{record.total}</Text>
         <Text style={styles.rowText}>{formatTimestamp(record.created_at)}</Text>
       </View>

@@ -17,12 +17,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Navbar from "../components/navBar";
 import supabase from "../utils/supabase";
 
-const CartPage = () => {
+const CartPage = ( {navigation} ) => {
+  // TODO Fix size since i think it compares 25cm to the id
     const [cartItems, setCartItems] = React.useState([]);
     const [loading, setLoading] = React.useState(true);
     const [totalPrice, setTotalPrice] = React.useState(0);
 
     async function GetCart() {
+      const {data, error} = await supabase.from("orders").select("*");
+      console.log(JSON.parse(data[1].pizzas))
         const cart = await AsyncStorage.getItem('cart');
         if (cart) {
             setCartItems(JSON.parse(cart));
@@ -92,7 +95,12 @@ const CartPage = () => {
   async function handleOrder() {
     const session = await supabase.auth.getSession();
     const userId = session.data.session.user.id
-      await supabase.from('orders').insert({userId: userId, })
+    console.log(cartItems)
+    const { data, error } = await supabase.from('orders').insert({userId: userId, pizzas: cartItems, total: totalPrice, progress: 0})
+    if (error) {
+      Alert.alert("Error", error.message);
+    }
+    // ClearCart();
   }
     
   React.useEffect(() => {
@@ -102,7 +110,7 @@ const CartPage = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar navigation={navigation} />
       <View style={styles.container}>
         <Text style={styles.heading}>Cart</Text>
       

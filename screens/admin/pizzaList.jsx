@@ -1,43 +1,28 @@
 import React from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
+import supabase from "../../utils/supabase";
 
-export default function PizzaList() {
-  const tableData = [
-    {
-      name: "hawaii",
-      size: "Job",
-      ingredients: "perronopi, sanana, moorhsum",
-    },
-    {
-      name: "hawaii",
-      size: "Job",
-      ingredients: "mah, sanana, moorhsum",
-    },
-    {
-      name: "hawaii",
-      size: "Job",
-      ingredients: "perronopi, sanana, moorhsum",
-    },
-    {
-      name: "hawaii",
-      ingredients: "perronopi, sanana, moorhsum",
-      size: 30,
-    },
-    {
-      name: "test",
-      size: 30,
-      ingredients: "perronopi, sanana, moorhsum",
-    },
-  ];
+export default function PizzaList( {route, navigation} ) {
+  const [pizzas, setPizzas] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+
+  async function fetchPizzas() {
+    const { data, error } = await supabase.from("orders").select("pizzas").eq("id", route.params.id);
+    setPizzas(data[0].pizzas);
+    // console.log(data[0].pizzas)
+    setLoading(false)
+  }
+
+  React.useEffect(() => {
+    fetchPizzas();
+  }, [])
 
   const renderRows = () => {
-    return tableData.flatMap((record, index) => {
-      const { maat, pizzas, ingredients } = record;
-
       return pizzas.map((pizza, pizzaIndex) => (
         <View style={styles.rowContainer} key={pizzaIndex}>
+          {console.log(pizza)}
             <View style={styles.rowBox}>
-              <Text style={styles.rowLabel}>Naam:</Text>
+              <Text style={styles.rowLabel}>Name:</Text>
               <Text style={styles.rowText}>{pizza.name}</Text>
             </View>
           <View style={styles.rowContainer}>
@@ -48,16 +33,15 @@ export default function PizzaList() {
           </View>
           <View style={styles.rowBox}>
             <Text style={styles.rowLabel}>Ingredients:</Text>
-            <Text style={styles.rowText}>{pizza.ingredients.join(", ")}</Text>
+            <Text style={styles.rowText}>{pizza.ingredients}</Text>
           </View>
         </View>
       ));
-    });
   };
 
   return (
     <View style={styles.container}>
-      <ScrollView>{renderRows()}</ScrollView>
+      <ScrollView>{loading ? <Text>Loading...</Text> : renderRows()}</ScrollView>
     </View>
   );
 };

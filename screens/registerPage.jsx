@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import supabase from '../utils/supabase';
 
 const RegistrationForm = ({ navigation }) => {
@@ -34,7 +34,10 @@ const RegistrationForm = ({ navigation }) => {
       isAdmin: false,
       number: parseInt(newphoneNumber),
     });
-    console.log(item.error)
+    if (item.error) {
+      Alert.alert("Error", item.error.message);
+    }
+    navigation.navigate("Home");
   }
 
   async function getSession() {
@@ -46,7 +49,7 @@ const RegistrationForm = ({ navigation }) => {
 
   React.useEffect(() => {
     getSession();
-  })
+  }, [])
 
   return (
     <View style={styles.container}>

@@ -11,10 +11,11 @@ import LogoutPage from './screens/logoutPage';
 import CartScreen from './screens/cartPage';
 import PizzaAdjust from './screens/pizzaAdjust';
 // Admin
-import UploadPage from './screens/admin/upload';
+import UploadPage from './screens/admin/addPizza';
 import ProductPage from './screens/admin/allProducts';
 import OrderPage from './screens/admin/allOrders';
 import UserPage from './screens/admin/allUsers';
+import PizzaList from './screens/admin/pizzaList';
 
 const Stack = createNativeStackNavigator();
 
@@ -33,6 +34,7 @@ export default function App() {
         <Stack.Screen name="Products" component={ProductPage} />
         <Stack.Screen name="Orders" component={OrderPage} />
         <Stack.Screen name="Users" component={UserPage} />
+        <Stack.Screen name="Pizzalist" component={PizzaList} />
       </Stack.Navigator>
     </NavigationContainer>
   );
