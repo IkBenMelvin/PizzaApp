@@ -70,7 +70,7 @@ const OrderPage = ( {navigation} ) => {
         <Text style={styles.rowText}>{users.map((user) => user.id === record.userId ? user.postal : null)}</Text>
         <Text style={styles.rowText}>{record.progress}</Text>
         <Pressable onPress={() => navigation.navigate("Pizzalist", {id: record.id})}>
-          <Text style={styles.rowText}>{JSON.parse(record.pizzas).name}</Text>
+          <Text style={styles.rowText}>See all</Text>
         </Pressable>
         <Text style={styles.rowText}>{record.total}</Text>
         <Text style={styles.rowText}>{formatTimestamp(record.created_at)}</Text>

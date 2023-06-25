@@ -5,10 +5,13 @@ import supabase from "../../utils/supabase";
 export default function PizzaList( {route, navigation} ) {
   const [pizzas, setPizzas] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
+  const sizes = [{id: 0, style: '25cm'}, {id: 1, style: '35 cm'}, {id: 2, style: 'calzone'}];
 
   async function fetchPizzas() {
+    // TODO fix this
     const { data, error } = await supabase.from("orders").select("pizzas").eq("id", route.params.id);
     // setPizzas(data[0].pizzas);
+    const chosenSize = sizes.find(size => size.id === selectedSize).style
     console.log(data[0].pizzas.name)
     setLoading(false)
   }

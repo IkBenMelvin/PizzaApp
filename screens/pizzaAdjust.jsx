@@ -8,7 +8,6 @@ const PizzaAdjust = ( {route, navigation }) => {
   const [ingredients, setIngredients] = useState([]);
   const [chosenIngredients, setChosenIngredients] = useState([]);
   const [loading, setLoading] = useState(true);
-  const sizes = [{id: 0, style: '25cm'}, {id: 1, style: '35 cm'}, {id: 2, style: 'calzone'}];
   const [selectedSize, setSelectedSize] = useState(0);
 
   function handleChooseIngredient(ingredient) {
@@ -49,8 +48,7 @@ const PizzaAdjust = ( {route, navigation }) => {
 }
 
   async function handleAdd() {
-    const chosenSize = sizes.find(size => size.id === selectedSize).style
-    HandleAddToCart(route.params.id, route.params.name, route.params.price, chosenSize, chosenIngredients);
+    HandleAddToCart(route.params.id, route.params.name, route.params.price, selectedSize, chosenIngredients);
   }
 
   React.useEffect(() => {
