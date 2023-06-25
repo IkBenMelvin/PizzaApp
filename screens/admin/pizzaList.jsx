@@ -4,28 +4,28 @@ import { View, Text, StyleSheet, ScrollView } from "react-native";
 export default function PizzaList() {
   const tableData = [
     {
-      maat: ["Job"],
-      pizzas: ["hawaii"],
+      name: "hawaii",
+      size: "Job",
       ingredients: "perronopi, sanana, moorhsum",
     },
     {
-      maat: ["Job"],
-      pizzas: ["hawaii"],
+      name: "hawaii",
+      size: "Job",
       ingredients: "mah, sanana, moorhsum",
     },
     {
-      maat: ["Job"],
-      pizzas: ["hawaii"],
+      name: "hawaii",
+      size: "Job",
       ingredients: "perronopi, sanana, moorhsum",
     },
     {
-      maat: ["30"],
-      pizzas: ["hawaii"],
+      name: "hawaii",
       ingredients: "perronopi, sanana, moorhsum",
+      size: 30,
     },
     {
-      maat: ["25", "30", "25"],
-      pizzas: ["hawaii", "margherita", "pepperoni"],
+      name: "test",
+      size: 30,
       ingredients: "perronopi, sanana, moorhsum",
     },
   ];
@@ -35,22 +35,20 @@ export default function PizzaList() {
       const { maat, pizzas, ingredients } = record;
 
       return pizzas.map((pizza, pizzaIndex) => (
-        <View style={styles.rowContainer} key={`${index}-${pizzaIndex}`}>
-          {maat[pizzaIndex] && (
+        <View style={styles.rowContainer} key={pizzaIndex}>
             <View style={styles.rowBox}>
-              <Text style={styles.rowLabel}>Maat:</Text>
-              <Text style={styles.rowText}>{maat[pizzaIndex]}</Text>
+              <Text style={styles.rowLabel}>Naam:</Text>
+              <Text style={styles.rowText}>{pizza.name}</Text>
             </View>
-          )}
           <View style={styles.rowContainer}>
             <View style={styles.rowBox}>
-              <Text style={styles.rowLabel}>Pizza:</Text>
-              <Text style={styles.rowText}>{pizza}</Text>
+              <Text style={styles.rowLabel}>Size:</Text>
+              <Text style={styles.rowText}>{pizza.size}</Text>
             </View>
           </View>
           <View style={styles.rowBox}>
             <Text style={styles.rowLabel}>Ingredients:</Text>
-            <Text style={styles.rowText}>{ingredients}</Text>
+            <Text style={styles.rowText}>{pizza.ingredients.join(", ")}</Text>
           </View>
         </View>
       ));
