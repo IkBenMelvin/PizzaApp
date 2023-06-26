@@ -41,7 +41,7 @@ const ProductPage = ( {navigation} ) => {
     fetchData();
   }, [])
 
-  const headers = ["ID", "name", "price", "ingredients",  "bonus", "created_at"];
+  const headers = ["edit", "delete", "ID", "name", "price", "ingredients",  "bonus", "created_at"];
 
   const renderHeader = () => {
     return (

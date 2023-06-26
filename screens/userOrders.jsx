@@ -4,7 +4,6 @@ import Navbar from "../components/navBar";
 import supabase from "../utils/supabase";
 
 const UserOrders = ( {navigation} ) => {
-  const progress = {0: "pending", 1: "in progress", 2: "in oven", 3: "done"};
   const [orders, setOrders] = React.useState();
   const [loading, setLoading] = React.useState(true);
 
@@ -63,7 +62,7 @@ const UserOrders = ( {navigation} ) => {
   const renderRows = () => {
     return orders.map((record) => (
       <View style={styles.tableRow} key={record.id}>
-        <Text style={styles.rowText}>{progress[record.progress]}</Text>
+        <Text style={styles.rowText}>{record.progress}</Text>
         <Pressable onPress={() => navigation.navigate("Pizzalist", {id: record.id})}>
           <Text style={[styles.rowText, {color: "blue"}]}>See all</Text>
         </Pressable>

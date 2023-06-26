@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Pressable, TouchableOpacity } from "react-native";
 import Navbar from "../../components/navBar";
 import supabase from "../../utils/supabase";
 
@@ -47,7 +47,7 @@ const OrderPage = ( {navigation} ) => {
     fetchData();
   }, [])
 
-  const headers = ["ID", "Name", "Street", "Postal", "progress", "pizzas",  "total", "created_at"];
+  const headers = ["edit", "delete", "ID", "Name", "Street", "Postal", "progress", "pizzas",  "total", "created_at"];
 
   const renderHeader = () => {
     return (
@@ -64,6 +64,12 @@ const OrderPage = ( {navigation} ) => {
   const renderRows = () => {
     return data.map((record) => (
       <View style={styles.tableRow} key={record.id}>
+        <Pressable onPress={() => navigation.navigate("editOrder", {id: record.id})}>
+          <Text style={[styles.rowText, {color: "blue"}]}>Edit</Text>
+        </Pressable>
+        <Pressable onPress={() => navigation.navigate("deleteOrder", {id: record.id})}>
+          <Text style={[styles.rowText, {color: "red"}]}>Delete</Text>
+        </Pressable>
         <Text style={styles.rowText}>{record.id}</Text>
         <Text style={styles.rowText}>{users.map((user) => user.id === record.userId ? user.name : null)}</Text>
         <Text style={styles.rowText}>{users.map((user) => user.id === record.userId ? user.street : null)}</Text>
@@ -80,7 +86,7 @@ const OrderPage = ( {navigation} ) => {
 
   return (
     <>
-      <Navbar navigation={navigation} />
+      {/* <Navbar navigation={navigation} /> */}
       <View style={styles.container}>
         <ScrollView horizontal={true}>
           <ScrollView>

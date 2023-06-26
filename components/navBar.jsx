@@ -50,7 +50,7 @@ const Navbar = ({ navigation }) => {
         })}
       </Animated.View>
 
-      <Pressable onPress={toggleHeight} style={{height: 50}}>
+      <Pressable onPress={toggleHeight} style={{height: 50, width: 50}}>
         <Image style={styles.image} source={require('../assets/menu.png')} />
       </Pressable>
 
