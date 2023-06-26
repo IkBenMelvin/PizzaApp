@@ -12,180 +12,177 @@ import {
   Pressable
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import { StatusBar } from 'expo-status-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Navbar from "../components/navBar";
 import supabase from "../utils/supabase";
 
 const CartPage = ( {navigation} ) => {
-  // TODO add discount
+  const [cartItems, setCartItems] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+  const [totalPrice, setTotalPrice] = React.useState(0);
 
-    const [cartItems, setCartItems] = React.useState([]);
-    const [loading, setLoading] = React.useState(true);
-    const [totalPrice, setTotalPrice] = React.useState(0);
-
-    function applyDiscount(prices) {
-      let cheapestIndex = 0;
-      let cheapestPrice = prices[0];
-    
-      for (let i = 1; i < prices.length; i++) {
-        if (prices[i] < cheapestPrice) {
-          cheapestIndex = i;
-          cheapestPrice = prices[i];
-        }
+  function applyDiscount(prices) {
+    let cheapestIndex = 0;
+    let cheapestPrice = prices[0];
+  
+    for (let i = 1; i < prices.length; i++) {
+      if (prices[i] < cheapestPrice) {
+        cheapestIndex = i;
+        cheapestPrice = prices[i];
       }
-    
-      prices[cheapestIndex] = 0;
-    
-      for (let i = 0; i < prices.length; i++) {
-        if (i !== cheapestIndex) {
-          prices[i] = prices[i] * 0.5;
-        }
+    }
+  
+    prices[cheapestIndex] = 0;
+  
+    for (let i = 0; i < prices.length; i++) {
+      if (i !== cheapestIndex) {
+        prices[i] = prices[i] * 0.5;
       }
-    
-      return prices;
     }
-    
-
-    async function GetCart() {
-        const cart = await AsyncStorage.getItem('cart');
-        if (cart) {
-            setCartItems(JSON.parse(cart));
-            let currentTotal = [];
-            JSON.parse(cart).map((item, idx) => currentTotal.push(item.price * item.quantity))
-            const discounted = applyDiscount(currentTotal);
-            setTotalPrice(discounted);
-            setLoading(false);
-        }
-    }
-
-    async function UpdateItem(itemId, newQuantity) {
-        const cart = await AsyncStorage.getItem('cart');
-        if (cart) {
-            const cartArray = JSON.parse(cart);
-            if (newQuantity <= 0) {
-                cartArray.map((cartItem, idx) => {
-                    if (cartItem.id === itemId) {
-                        cartArray.splice(idx, 1);
-                    }
-                })
-                setCartItems(cartArray);
-                let currentTotal = [];
-                JSON.parse(cart).map((item, idx) => currentTotal.push(item.price * item.quantity))
-                const discounted = applyDiscount(currentTotal);
-                setTotalPrice(discounted);
-                await AsyncStorage.setItem('cart', JSON.stringify(cartArray));
-            } else {
-                cartArray.map((cartItem, idx) => {
-                    if (cartItem.id === itemId) {
-                        cartArray[idx].quantity = newQuantity;
-                    }
-                })
-                setCartItems(cartArray);
-                let currentTotal = [];
-                JSON.parse(cart).map((item, idx) => currentTotal.push(item.price * item.quantity))
-                const discounted = applyDiscount(currentTotal);
-                setTotalPrice(discounted);
-                await AsyncStorage.setItem('cart', JSON.stringify(cartArray));
-            }
-        }
-    }
-    
-    async function ClearCart() {
-        setTotalPrice(0);
-        await AsyncStorage.removeItem('cart');
-        GetCart();
-    }
-
-    
-    function confirmClear() {
-      Alert.alert(
-        "Clear Cart",
-        "Are you sure you want to clear your cart?",
-        [
-          {
-            text: "Cancel",
-            onPress: () => console.log("Cancel Pressed"),
-            style: "cancel"
-          },
-          { text: "Clear", onPress: () => ClearCart() }
-        ]
-        );
-        
-      }
-
-  async function handleOrder() {
-    const session = await supabase.auth.getSession();
-    const userId = session.data.session.user.id
-    console.log(cartItems)
-    const { data, error } = await supabase.from('orders').insert({userId: userId, pizzas: cartItems, total: totalPrice, progress: 0})
-    if (error) {
-      Alert.alert("Error", error.message);
-    }
-    // ClearCart();
+  
+    return prices;
   }
-    
-  React.useEffect(() => {
-    GetCart();
-  }, [])
-  // Calculate the total price of all items
+  
 
-  return (
-    <>
-      <Navbar navigation={navigation} />
-      <View style={styles.container}>
-        <Text style={styles.heading}>Cart</Text>
+  async function GetCart() {
+      const cart = await AsyncStorage.getItem('cart');
+      if (cart) {
+          setCartItems(JSON.parse(cart));
+          let currentTotal = [];
+          JSON.parse(cart).map((item, idx) => currentTotal.push(item.price * item.quantity))
+          const discounted = applyDiscount(currentTotal);
+          setTotalPrice(discounted);
+          setLoading(false);
+      }
+  }
+
+  async function UpdateItem(itemId, newQuantity) {
+      const cart = await AsyncStorage.getItem('cart');
+      if (cart) {
+          const cartArray = JSON.parse(cart);
+          if (newQuantity <= 0) {
+              cartArray.map((cartItem, idx) => {
+                  if (cartItem.id === itemId) {
+                      cartArray.splice(idx, 1);
+                  }
+              })
+              setCartItems(cartArray);
+              let currentTotal = [];
+              JSON.parse(cart).map((item, idx) => currentTotal.push(item.price * item.quantity))
+              const discounted = applyDiscount(currentTotal);
+              setTotalPrice(discounted);
+              await AsyncStorage.setItem('cart', JSON.stringify(cartArray));
+          } else {
+              cartArray.map((cartItem, idx) => {
+                  if (cartItem.id === itemId) {
+                      cartArray[idx].quantity = newQuantity;
+                  }
+              })
+              setCartItems(cartArray);
+              let currentTotal = [];
+              JSON.parse(cart).map((item, idx) => currentTotal.push(item.price * item.quantity))
+              const discounted = applyDiscount(currentTotal);
+              setTotalPrice(discounted);
+              await AsyncStorage.setItem('cart', JSON.stringify(cartArray));
+          }
+      }
+  }
+  
+  async function ClearCart() {
+      setTotalPrice(0);
+      await AsyncStorage.removeItem('cart');
+      GetCart();
+  }
+
+  
+  function confirmClear() {
+    Alert.alert(
+      "Clear Cart",
+      "Are you sure you want to clear your cart?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "Clear", onPress: () => ClearCart() }
+      ]
+      );
       
-        <ScrollView style={styles.itemContainer}>
-          {loading ? <Text>Loading...</Text> : (cartItems.map((item, idx) => (
-            <View key={idx} style={styles.cartItem}>
-              <View style={styles.itemInfo}>
-                <Text style={styles.itemName}>{item.name}</Text>
-                <Text style={styles.itemSubline}>
-                  Price: ${item.price.toFixed(2)}
-                </Text>
-                <Text style={styles.itemSubline}>
-                  Ingredients: {item.ingredients.join(", ")}
-                </Text>
-              </View>
-              <View style={styles.quantityContainer}>
-                <TouchableOpacity
-                  style={styles.quantityButton}
-                  onPress={() => UpdateItem(item.id, item.quantity - 1)}
-                >
-                  <AntDesign name="minus" size={16} color="#000" />
-                </TouchableOpacity>
-                <Text style={styles.quantity}>{item.quantity}</Text>
-                <TouchableOpacity
-                  style={styles.quantityButton}
-                  onPress={() => UpdateItem(item.id, item.quantity + 1)}
-                >
-                  <AntDesign name="plus" size={16} color="#000" />
-                </TouchableOpacity>
-              </View>
+    }
+
+async function handleOrder() {
+  const session = await supabase.auth.getSession();
+  const userId = session.data.session.user.id
+  console.log(cartItems)
+  const { data, error } = await supabase.from('orders').insert({userId: userId, pizzas: cartItems, total: totalPrice, progress: 0})
+  if (error) {
+    Alert.alert("Error", error.message);
+  }
+  // ClearCart();
+}
+  
+React.useEffect(() => {
+  GetCart();
+}, [])
+// Calculate the total price of all items
+
+return (
+  <>
+    <Navbar navigation={navigation} />
+    <View style={styles.container}>
+      <Text style={styles.heading}>Cart</Text>
+    
+      <ScrollView style={styles.itemContainer}>
+        {loading ? <Text>Loading...</Text> : (cartItems.map((item, idx) => (
+          <View key={idx} style={styles.cartItem}>
+            <View style={styles.itemInfo}>
+              <Text style={styles.itemName}>{item.name}</Text>
+              <Text style={styles.itemSubline}>
+                Price: ${item.price.toFixed(2)}
+              </Text>
+              <Text style={styles.itemSubline}>
+                Ingredients: {item.ingredients.join(", ")}
+              </Text>
             </View>
-          )
-          ))}
-        </ScrollView>
+            <View style={styles.quantityContainer}>
+              <TouchableOpacity
+                style={styles.quantityButton}
+                onPress={() => UpdateItem(item.id, item.quantity - 1)}
+              >
+                <AntDesign name="minus" size={16} color="#000" />
+              </TouchableOpacity>
+              <Text style={styles.quantity}>{item.quantity}</Text>
+              <TouchableOpacity
+                style={styles.quantityButton}
+                onPress={() => UpdateItem(item.id, item.quantity + 1)}
+              >
+                <AntDesign name="plus" size={16} color="#000" />
+              </TouchableOpacity>
+            </View>
+          </View>
+        )
+        ))}
+      </ScrollView>
 
-        <View style={styles.footer}>
-          <Text style={styles.totalText}>
-            Total Price: ${totalPrice.toFixed(2)}
-          </Text>
+      <View style={styles.footer}>
+        <Text style={styles.totalText}>
+          Total Price: ${totalPrice.toFixed(2)}
+        </Text>
 
-          <TouchableOpacity style={styles.clearButton} onPress={() => confirmClear()}>
-            <Text style={styles.clearButtonText}>Clear All</Text>
-          </TouchableOpacity>
+        <TouchableOpacity style={styles.clearButton} onPress={() => confirmClear()}>
+          <Text style={styles.clearButtonText}>Clear All</Text>
+        </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.checkoutButton}
-            onPress={() => handleOrder()}
-          >
-            <Text style={styles.checkoutButtonText}>Checkout</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity
+          style={styles.checkoutButton}
+          onPress={() => handleOrder()}
+        >
+          <Text style={styles.checkoutButtonText}>Checkout</Text>
+        </TouchableOpacity>
       </View>
-    </>
+    </View>
+  </>
   );
 };
 
