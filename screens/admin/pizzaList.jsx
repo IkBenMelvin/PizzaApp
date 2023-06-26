@@ -10,8 +10,8 @@ export default function PizzaList( {route, navigation} ) {
   async function fetchPizzas() {
     // TODO fix this
     const { data, error } = await supabase.from("orders").select("pizzas").eq("id", route.params.id);
-    // setPizzas(data[0].pizzas);
     const chosenSize = sizes.find(size => size.id === selectedSize).style
+    // setPizzas(data[0].pizzas);
     console.log(data[0].pizzas.name)
     setLoading(false)
   }
