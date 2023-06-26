@@ -5,8 +5,8 @@ import Navbar from '../../components/navBar.jsx';
 export default function Dashboard({ navigation }) {
     const buttons = [
         { title: 'All Users', route: 'Users' },
-        { title: 'All Orders', route: 'AllOrders' },
-        { title: 'All Pizzas', route: 'AllPizzas' },
+        { title: 'All Orders', route: 'Orders' },
+        { title: 'All Pizzas', route: 'Products' },
         { title: 'Add Pizza', route: 'AddPizza' },
     ];
 

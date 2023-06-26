@@ -130,7 +130,7 @@ export default function CartPage( {navigation} ) {
 async function handleOrder() {
   const session = await supabase.auth.getSession();
   const userId = session.data.session.user.id
-  const { data, error } = await supabase.from('orders').insert({userId: userId, pizzas: cartItems, total: totalPrice, progress: 0})
+  const { data, error } = await supabase.from('orders').insert({userId: userId, pizzas: cartItems, total: totalPrice, progress: "pending"})
   if (error) {
     Alert.alert("Error", error.message);
   }
