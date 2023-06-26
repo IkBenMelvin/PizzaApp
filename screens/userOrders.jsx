@@ -1,10 +1,11 @@
 import React from "react";
-import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
-import Navbar from "../../components/navBar";
-import supabase from "../../utils/supabase";
+import { View, Text, StyleSheet, ScrollView, Pressable, Alert } from "react-native";
+import Navbar from "../components/navBar";
+import supabase from "../utils/supabase";
 
-const ProductPage = ( {navigation} ) => {
-  const [pizzas, setPizzas] = React.useState();
+const UserOrders = ( {navigation} ) => {
+  const progress = {0: "pending", 1: "in progress", 2: "in oven", 3: "done"};
+  const [orders, setOrders] = React.useState();
   const [loading, setLoading] = React.useState(true);
 
   function formatTimestamp(timestamp) {
@@ -32,8 +33,12 @@ const ProductPage = ( {navigation} ) => {
   }
   
   async function fetchData() {
-    const pizzaData = await supabase.from("pizzas").select("*");
-    setPizzas(pizzaData.data);
+    const { data, error } = await supabase.auth.getSession();
+    if (error) {
+        Alert.alert("Error", error.message);
+    }
+    const orderData = await supabase.from("orders").select("*").eq("userId", data.session.user.id);
+    setOrders(orderData.data);
     setLoading(false)
   }
 
@@ -41,7 +46,7 @@ const ProductPage = ( {navigation} ) => {
     fetchData();
   }, [])
 
-  const headers = ["ID", "name", "price", "ingredients",  "bonus", "created_at"];
+  const headers = ["progress", "pizzas",  "total", "created_at"];
 
   const renderHeader = () => {
     return (
@@ -56,19 +61,13 @@ const ProductPage = ( {navigation} ) => {
   };
 
   const renderRows = () => {
-    return pizzas.map((record) => (
+    return orders.map((record) => (
       <View style={styles.tableRow} key={record.id}>
-        <Pressable onPress={() => navigation.navigate("editPizza", {id: record.id})}>
-          <Text style={[styles.rowText, {color: "blue"}]}>Edit</Text>
+        <Text style={styles.rowText}>{progress[record.progress]}</Text>
+        <Pressable onPress={() => navigation.navigate("Pizzalist", {id: record.id})}>
+          <Text style={[styles.rowText, {color: "blue"}]}>See all</Text>
         </Pressable>
-        <Pressable onPress={() => navigation.navigate("deletePizza", {id: record.id})}>
-          <Text style={[styles.rowText, {color: "red"}]}>Delete</Text>
-        </Pressable>
-        <Text style={styles.rowText}>{record.id}</Text>
-        <Text style={styles.rowText}>{record.name}</Text>
-        <Text style={styles.rowText}>{record.price}</Text>
-        <Text style={styles.rowText}>{record.ingredients.join(", ")}</Text>
-        <Text style={styles.rowText}>{record.bonus ? "Yes" : "No"}</Text>
+        <Text style={styles.rowText}>{record.total}</Text>
         <Text style={styles.rowText}>{formatTimestamp(record.created_at)}</Text>
       </View>
     ));
@@ -76,7 +75,7 @@ const ProductPage = ( {navigation} ) => {
 
   return (
     <>
-      {/* <Navbar navigation={navigation} /> */}
+      <Navbar navigation={navigation} />
       <View style={styles.container}>
         <ScrollView horizontal={true}>
           <ScrollView>
@@ -117,4 +116,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProductPage;
+export default UserOrders;

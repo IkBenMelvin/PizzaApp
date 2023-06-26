@@ -18,10 +18,19 @@ import Navbar from "../components/navBar";
 import supabase from "../utils/supabase";
 
 const CartPage = ( {navigation} ) => {
-  // TODO Fix size since i think it compares 25cm to the id
+  // TODO add discount
+
     const [cartItems, setCartItems] = React.useState([]);
     const [loading, setLoading] = React.useState(true);
     const [totalPrice, setTotalPrice] = React.useState(0);
+
+    function applyDiscount(prices) {
+      for (let i = 1; i < prices.length; i++) {
+        prices[i] = prices[i] * 0.5;
+      }
+      return prices
+    }
+    
 
     async function GetCart() {
         const cart = await AsyncStorage.getItem('cart');

@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import supabase from "../../utils/supabase";
+import Navbar from "../../components/navBar";
 
 export default function PizzaList( {route, navigation} ) {
   const [pizzas, setPizzas] = React.useState([]);
@@ -10,9 +11,9 @@ export default function PizzaList( {route, navigation} ) {
   async function fetchPizzas() {
     // TODO fix this
     const { data, error } = await supabase.from("orders").select("pizzas").eq("id", route.params.id);
-    const chosenSize = sizes.find(size => size.id === selectedSize).style
-    // setPizzas(data[0].pizzas);
-    console.log(data[0].pizzas.name)
+    // const chosenSize = sizes.find(size => size.id === selectedSize).style
+    setPizzas(data[0].pizzas);
+    // console.log(JSON.parse(data[0].pizzas[0]).name);
     setLoading(false)
   }
 
@@ -21,31 +22,35 @@ export default function PizzaList( {route, navigation} ) {
   }, [])
 
   const renderRows = () => {
-      return pizzas.map((pizza, pizzaIndex) => (
-        <View style={styles.rowContainer} key={pizzaIndex}>
-          {console.log(pizza)}
+      return pizzas.map((pizza, pizzaIndex) => {
+        const currentPizza = JSON.parse(pizza);
+        return (
+          <View style={styles.rowContainer} key={pizzaIndex}>
+            {/* {console.log(pizza.name)} */}
+              <View style={styles.rowBox}>
+                <Text style={styles.rowLabel}>Name:</Text>
+                <Text style={styles.rowText}>{currentPizza.name}</Text>
+              </View>
+              <View style={styles.rowBox}>
+                <Text style={styles.rowLabel}>Size:</Text>
+                <Text style={styles.rowText}>{currentPizza.size}</Text>
+              </View>
             <View style={styles.rowBox}>
-              <Text style={styles.rowLabel}>Name:</Text>
-              <Text style={styles.rowText}>{pizza.name}</Text>
-            </View>
-          <View style={styles.rowContainer}>
-            <View style={styles.rowBox}>
-              <Text style={styles.rowLabel}>Size:</Text>
-              <Text style={styles.rowText}>{pizza.size}</Text>
+              <Text style={styles.rowLabel}>Ingredients:</Text>
+              <Text style={styles.rowText}>{currentPizza.ingredients.join(", ")}</Text>
             </View>
           </View>
-          <View style={styles.rowBox}>
-            <Text style={styles.rowLabel}>Ingredients:</Text>
-            <Text style={styles.rowText}>{pizza.ingredients}</Text>
-          </View>
-        </View>
-      ));
+        )
+      });
   };
 
   return (
-    <View style={styles.container}>
-      <ScrollView>{loading ? <Text>Loading...</Text> : renderRows()}</ScrollView>
-    </View>
+    <>
+      <Navbar navigation={navigation}></Navbar>
+      <View style={[styles.container, {marginTop: 100}]}>
+        <ScrollView>{loading ? <Text>Loading...</Text> : renderRows()}</ScrollView>
+      </View>
+    </>
   );
 };
 
