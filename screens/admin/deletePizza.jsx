@@ -7,10 +7,11 @@ import Navbar from '../../components/navBar.jsx';
 export default function DeletePizzaPage({route, navigation}) {
     
     async function deleteItem() {
-        await supabase.from("pizzas").delete().eq("id", route.params.id)
-        if (error) {
+        const deleteItem = await supabase.from("pizzas").delete().eq("id", route.params.id)
+        if (deleteItem.error) {
             Alert.alert("Error", "error.message")
         }
+        const {data, error} = await supabase.storage.from("images").remove([`${route.params.id}`])
         navigation.navigate("Products");
     }
 

@@ -25,10 +25,25 @@ const CartPage = ( {navigation} ) => {
     const [totalPrice, setTotalPrice] = React.useState(0);
 
     function applyDiscount(prices) {
+      let cheapestIndex = 0;
+      let cheapestPrice = prices[0];
+    
       for (let i = 1; i < prices.length; i++) {
-        prices[i] = prices[i] * 0.5;
+        if (prices[i] < cheapestPrice) {
+          cheapestIndex = i;
+          cheapestPrice = prices[i];
+        }
       }
-      return prices
+    
+      prices[cheapestIndex] = 0;
+    
+      for (let i = 0; i < prices.length; i++) {
+        if (i !== cheapestIndex) {
+          prices[i] = prices[i] * 0.5;
+        }
+      }
+    
+      return prices;
     }
     
 
@@ -36,10 +51,10 @@ const CartPage = ( {navigation} ) => {
         const cart = await AsyncStorage.getItem('cart');
         if (cart) {
             setCartItems(JSON.parse(cart));
-            setTotalPrice(JSON.parse(cart).reduce(
-              (total, item) => total + item.price * item.quantity,
-              0
-            ));
+            let currentTotal = [];
+            JSON.parse(cart).map((item, idx) => currentTotal.push(item.price * item.quantity))
+            const discounted = applyDiscount(currentTotal);
+            setTotalPrice(discounted);
             setLoading(false);
         }
     }
@@ -55,10 +70,10 @@ const CartPage = ( {navigation} ) => {
                     }
                 })
                 setCartItems(cartArray);
-                setTotalPrice(cartArray.reduce(
-                  (total, item) => total + item.price * item.quantity,
-                  0
-                ));
+                let currentTotal = [];
+                JSON.parse(cart).map((item, idx) => currentTotal.push(item.price * item.quantity))
+                const discounted = applyDiscount(currentTotal);
+                setTotalPrice(discounted);
                 await AsyncStorage.setItem('cart', JSON.stringify(cartArray));
             } else {
                 cartArray.map((cartItem, idx) => {
@@ -67,10 +82,10 @@ const CartPage = ( {navigation} ) => {
                     }
                 })
                 setCartItems(cartArray);
-                setTotalPrice(cartArray.reduce(
-                  (total, item) => total + item.price * item.quantity,
-                  0
-                ));
+                let currentTotal = [];
+                JSON.parse(cart).map((item, idx) => currentTotal.push(item.price * item.quantity))
+                const discounted = applyDiscount(currentTotal);
+                setTotalPrice(discounted);
                 await AsyncStorage.setItem('cart', JSON.stringify(cartArray));
             }
         }
