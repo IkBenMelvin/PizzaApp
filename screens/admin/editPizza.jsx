@@ -7,8 +7,7 @@ import supabase from "../../utils/supabase.js"
 import Navbar from '../../components/navBar.jsx';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-const EditPizzaPage = ({route, navigation}) => {
-  // ? Check of this works
+export default function EditPizzaPage({route, navigation}) {
     const [name, setName] = React.useState(null);
     const [ingredients, setIngredients] = React.useState(null);
     const [price, setPrice] = React.useState(null);
@@ -165,5 +164,3 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
 });
-
-export default EditPizzaPage;

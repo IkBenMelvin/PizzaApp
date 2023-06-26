@@ -17,8 +17,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Navbar from "../components/navBar";
 import supabase from "../utils/supabase";
 
-const CartPage = ( {navigation} ) => {
-  // TODO Fix discount
+export default function CartPage( {navigation} ) {
   const [cartItems, setCartItems] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
   const [totalPrice, setTotalPrice] = React.useState(0);
@@ -288,5 +287,3 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
-
-export default CartPage;

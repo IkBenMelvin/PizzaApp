@@ -5,7 +5,7 @@ import supabase from '../utils/supabase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const SpecialPage = ( {route, navigation }) => {
+export default function SpecialPage( {route, navigation }) {
     const [ingredients, setIngredients] = useState([]);
     const [chosenIngredients, setChosenIngredients] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -92,5 +92,3 @@ const SpecialPage = ( {route, navigation }) => {
       alignItems: 'center',
     },
   });
-  
-  export default SpecialPage;

@@ -22,6 +22,7 @@ import DeletePizzaPage from './screens/admin/deletePizza';
 import EditOrderPage from './screens/admin/editOrder';
 import DeleteOrderPage from './screens/admin/deleteOrder';
 import SpecialPage from './screens/specialPage';
+import Dashboard from './screens/admin/dashboard';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +30,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName='Login'>
+        { /* Main section*/ }
         <Stack.Screen name="Home" component={HomePage} />
         <Stack.Screen name="Login" component={LoginPage} />
         <Stack.Screen name="Register" component={RegisterPage} />
@@ -38,6 +40,7 @@ export default function App() {
         <Stack.Screen name="RecentOrders" component={UserOrders} />
         <Stack.Screen name="SpecialPage" component={SpecialPage} />
         { /* Admin section*/ }
+        <Stack.Screen name="Dashboard" component={Dashboard} />
         <Stack.Screen name="AddPizza" component={UploadPage} />
         <Stack.Screen name="editPizza" component={EditPizzaPage} />
         <Stack.Screen name="deletePizza" component={DeletePizzaPage} />
