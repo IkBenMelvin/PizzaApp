@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import supabase from '../utils/supabase';
 
-const RegistrationForm = ({ navigation }) => {
+export default function RegisterPage({ navigation }) {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
@@ -174,5 +174,3 @@ const styles = {
     borderColor: '#3282B8',
   },
 };
-
-export default RegistrationForm;

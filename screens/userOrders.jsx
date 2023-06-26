@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ScrollView, Pressable, Alert } from "react-nati
 import Navbar from "../components/navBar";
 import supabase from "../utils/supabase";
 
-const UserOrders = ( {navigation} ) => {
+export default function UserOrders( {navigation} ) {
   const [orders, setOrders] = React.useState();
   const [loading, setLoading] = React.useState(true);
 
@@ -114,5 +114,3 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
-
-export default UserOrders;

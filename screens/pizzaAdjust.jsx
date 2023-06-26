@@ -4,7 +4,7 @@ import { View, StyleSheet } from 'react-native';
 import supabase from '../utils/supabase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const PizzaAdjust = ( {route, navigation }) => {
+export default function PizzaAdjust({ route, navigation }) {
   const [ingredients, setIngredients] = useState([]);
   const [chosenIngredients, setChosenIngredients] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -111,5 +111,3 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-
-export default PizzaAdjust;
