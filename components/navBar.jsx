@@ -37,20 +37,22 @@ const Navbar = ({ navigation }) => {
       <Animated.View style={[styles.LinkContainer, {width: heightAnimation}]}>
         {isAdmin ? AdminLinks.map((link) => {
           return (
-            <Pressable key={link} onPress={() => navigation.navigate(link)}>
+            <Pressable key={link} onPress={() => {navigation.navigate(link);
+            toggleHeight;}}>
               <Text numberOfLines={1} style={styles.text}>{link}</Text>
             </Pressable>
           );
         }) : NavLinks.map((link) => {
           return (
-            <Pressable key={link} onPress={() => navigation.navigate(link)}>
-              <Text numberOfLines={1} style={styles.adminText}>{link}</Text>
+            <Pressable key={link} onPress={() => {navigation.navigate(link);
+              toggleHeight;}}>           
+                 <Text numberOfLines={1} style={styles.adminText}>{link}</Text>
             </Pressable>
           );
         })}
       </Animated.View>
 
-      <Pressable onPress={toggleHeight}>
+      <Pressable onPress={toggleHeight} style={styles.imageButton}>
         <Image style={styles.image} source={require('../assets/menu.png')} />
       </Pressable>
 
@@ -70,6 +72,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'flex-start',
     marginTop: 25,
+    Left:0,
     height: '100%',
     color: 'white',
   },
@@ -87,6 +90,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#1B262C',
     color: '#0F4C75',
   },
+  imageButton: {
+  height:50,
+  },
   image: {
     backgroundColor: '#3282B8',
     tintColor: 'white',
@@ -101,7 +107,7 @@ const styles = StyleSheet.create({
     // elevation: 24,
     marginTop: 35,
     marginLeft: 20,
-    height:51,
+    height:50,
     width: 50,
   },
 });
