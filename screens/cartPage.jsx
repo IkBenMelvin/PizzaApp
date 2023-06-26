@@ -119,7 +119,6 @@ export default function CartPage( {navigation} ) {
       [
         {
           text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
           style: "cancel"
         },
         { text: "Clear", onPress: () => ClearCart() }
@@ -131,11 +130,11 @@ export default function CartPage( {navigation} ) {
 async function handleOrder() {
   const session = await supabase.auth.getSession();
   const userId = session.data.session.user.id
-  console.log(cartItems)
   const { data, error } = await supabase.from('orders').insert({userId: userId, pizzas: cartItems, total: totalPrice, progress: 0})
   if (error) {
     Alert.alert("Error", error.message);
   }
+  Alert.alert("Order Placed", "Your order has been placed");
   // ClearCart();
 }
   

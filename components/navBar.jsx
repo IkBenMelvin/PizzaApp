@@ -1,10 +1,9 @@
 import React, {useState, useRef } from 'react';
 import { Pressable, StyleSheet, Text, View, Image, ScrollView, Animated } from 'react-native';
-import { Link } from '@react-navigation/native';
 import supabase from '../utils/supabase';
 
 const Navbar = ({ navigation }) => {
-  const NavLinks = ["Home", "Register", "Login", "Cart", "RecentOrders", "Logout"];
+  const NavLinks = ["Home", "Cart", "RecentOrders", "Logout"];
   const AdminLinks = ["Home", "Dashboard", "AddPizza", "Orders", "Products", "Users", "Logout"];
   const [expanded, setExpanded] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
