@@ -17,7 +17,6 @@ const EditPizzaPage = ({route, navigation}) => {
 
     async function getPizzaInfo() {
         const { data, error } = await supabase.from("pizzas").select("*").eq("id", route.params.id);
-        console.log(data[0].ingredients)
         setName(data[0].name)
         setIngredients(data[0].ingredients.length > 0 ? data[0].ingredients.join(", ") : "")
         setPrice(data[0].price)
@@ -42,25 +41,24 @@ const EditPizzaPage = ({route, navigation}) => {
             price: price,
             ingredients: ingredients.split(","),
         }).eq('id', route.params.id).select();
-        const fileb64 = await FileSystem.readAsStringAsync(
-            image,
-            {
-              encoding: FileSystem.EncodingType.Base64,
-            }
-        );
-        if (error) {
-            Alert.alert("Error", error.message);
-        }
-
         if (image) {
-            const upload = await supabase.storage.from('images').update(`${data[0].id}`, decode(fileb64), {
-                contentType: 'image/png',
-            });
-            if (upload?.error) {
-                Alert.alert("Error", upload.error.message);
-            }
+          const fileb64 = await FileSystem.readAsStringAsync(
+              image,
+              {
+                encoding: FileSystem.EncodingType.Base64,
+              }
+          );
+          if (error) {
+              Alert.alert("Error", error.message);
+          }
+          const upload = await supabase.storage.from('images').update(`${data[0].id}`, decode(fileb64), {
+              contentType: 'image/png',
+          });
+          if (upload?.error) {
+              Alert.alert("Error", upload.error.message);
+          }
         }
-        navigation.navigate("Home");
+        navigation.navigate("Products");
     }
 
     React.useEffect(() => {
