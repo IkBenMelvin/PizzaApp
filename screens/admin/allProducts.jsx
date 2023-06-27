@@ -55,6 +55,9 @@ const ProductPage = ( {navigation} ) => {
   };
 
   const renderRows = () => {
+    if (route.params?.refresh) {
+      fetchData();
+    }
     return pizzas.map((record) => (
       <View style={styles.tableRow} key={record.id}>
         <Pressable onPress={() => navigation.navigate("editPizza", {id: record.id})}>

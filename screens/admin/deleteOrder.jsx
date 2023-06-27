@@ -9,7 +9,7 @@ export default function DeleteOrderPage({route, navigation}) {
         if (deleteItem.error) {
             Alert.alert("Error", error.message)
         }
-        navigation.navigate("Orders");
+        navigation.navigate("Orders", {refresh: true});
     }
 
     React.useEffect(() => {

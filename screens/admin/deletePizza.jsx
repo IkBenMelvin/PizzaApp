@@ -10,7 +10,7 @@ export default function DeletePizzaPage({route, navigation}) {
             Alert.alert("Error", "error.message")
         }
         const {data, error} = await supabase.storage.from("images").remove([`${route.params.id}`])
-        navigation.navigate("Products");
+        navigation.navigate("Products", {refresh: true});
     }
 
     React.useEffect(() => {

@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ScrollView, Pressable, Alert } from "react-nati
 import Navbar from "../components/navBar";
 import supabase from "../utils/supabase";
 
-export default function UserOrders( {navigation} ) {
+export default function UserOrders( {route, navigation} ) {
   const [orders, setOrders] = React.useState();
   const [loading, setLoading] = React.useState(true);
 
@@ -60,6 +60,9 @@ export default function UserOrders( {navigation} ) {
   };
 
   const renderRows = () => {
+    if (route.params?.refresh) {
+      fetchData();
+    }
     return orders.map((record) => (
       <View style={styles.tableRow} key={record.id}>
         <Text style={styles.rowText}>{record.progress}</Text>

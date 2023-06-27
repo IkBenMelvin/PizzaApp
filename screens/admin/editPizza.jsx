@@ -57,7 +57,7 @@ export default function EditPizzaPage({route, navigation}) {
               Alert.alert("Error", upload.error.message);
           }
         }
-        navigation.navigate("Products");
+        navigation.navigate("Products", {refresh: true});
     }
 
     React.useEffect(() => {

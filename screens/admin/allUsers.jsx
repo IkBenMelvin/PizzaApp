@@ -56,6 +56,9 @@ const UserPage = ( {navigation} ) => {
   };
 
   const renderRows = () => {
+    if (route.params?.refresh) {
+      fetchData();
+    }
     return users.map((record) => (
       <View style={styles.tableRow} key={record.id}>
         <Text style={styles.rowText}>{record.id}</Text>

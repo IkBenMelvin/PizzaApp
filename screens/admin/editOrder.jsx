@@ -21,7 +21,7 @@ export default function EditOrderPage( {route, navigation} ) {
         if (error) {
             Alert.alert("Error", error.message);
         }
-        navigation.navigate("Orders");
+        navigation.navigate("Orders", {refresh: true});
     }
 
     React.useEffect(() => {

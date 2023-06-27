@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
 import supabase from "../../utils/supabase";
 
-const OrderPage = ( {navigation} ) => {
+const OrderPage = ( {route, navigation} ) => {
   const [data, setData] = React.useState();
   const [pizzas, setPizzas] = React.useState();
   const [users, setUsers] = React.useState();
@@ -61,6 +61,9 @@ const OrderPage = ( {navigation} ) => {
   };
 
   const renderRows = () => {
+    if (route.params?.refresh) {
+      fetchData();
+    }
     return data.map((record) => (
       <View style={styles.tableRow} key={record.id}>
         <Pressable onPress={() => navigation.navigate("editOrder", {id: record.id})}>
