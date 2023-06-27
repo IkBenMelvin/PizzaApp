@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, TextInput, View, Pressable, Alert, Text, Image, TouchableOpacity, ScrollView} from 'react-native';
+import {StyleSheet, TextInput, View, Alert, Text, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from "expo-file-system";
 import { decode } from 'base64-arraybuffer'

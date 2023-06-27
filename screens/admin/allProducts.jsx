@@ -1,6 +1,5 @@
 import React from "react";
 import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
-import Navbar from "../../components/navBar";
 import supabase from "../../utils/supabase";
 
 const ProductPage = ( {navigation} ) => {

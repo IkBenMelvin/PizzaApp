@@ -1,8 +1,6 @@
 import React from 'react';
-import {StyleSheet, TextInput, View, Pressable, Alert, Text, Image, TouchableOpacity, ScrollView} from 'react-native';
-import { decode } from 'base64-arraybuffer'
+import { Alert } from 'react-native';
 import supabase from "../../utils/supabase.js"
-import Navbar from '../../components/navBar.jsx';
 
 export default function DeleteOrderPage({route, navigation}) {
     

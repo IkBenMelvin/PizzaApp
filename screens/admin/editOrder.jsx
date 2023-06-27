@@ -1,7 +1,6 @@
 import React from "react";
-import { View, Text, StyleSheet, ScrollView, Pressable, Alert } from "react-native";
-import {Picker} from '@react-native-picker/picker';
-import Navbar from "../../components/navBar";
+import { View, Text, StyleSheet, Pressable, Alert } from "react-native";
+import { Picker } from '@react-native-picker/picker';
 import supabase from "../../utils/supabase";
 
 export default function EditOrderPage( {route, navigation} ) {

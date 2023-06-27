@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { CheckBox, Button, Text } from 'react-native-elements';
-import { View, StyleSheet } from 'react-native';
+import { CheckBox } from 'react-native-elements';
+import { View, StyleSheet, Button, Text } from 'react-native';
 import supabase from '../utils/supabase';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 

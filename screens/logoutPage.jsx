@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { Text } from 'react-native';
 import supabase from '../utils/supabase';
 
 export default function LogoutPage({ navigation }) {

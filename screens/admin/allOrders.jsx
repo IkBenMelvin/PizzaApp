@@ -1,6 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, ScrollView, Pressable, TouchableOpacity } from "react-native";
-import Navbar from "../../components/navBar";
+import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
 import supabase from "../../utils/supabase";
 
 const OrderPage = ( {navigation} ) => {

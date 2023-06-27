@@ -1,18 +1,6 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  ScrollView,
-  Alert,
-  SafeAreaView, 
-  TextInput, 
-  Image, 
-  Pressable
-} from "react-native";
+import React from "react";
+import {View, Text, TouchableOpacity, StyleSheet, ScrollView, Alert} from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import { StatusBar } from 'expo-status-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Navbar from "../components/navBar";
 import supabase from "../utils/supabase";
