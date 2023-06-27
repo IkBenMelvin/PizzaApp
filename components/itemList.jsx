@@ -16,31 +16,35 @@ export default function ItemList( {navigation} ) {
         navigation.navigate('PizzaDetails', {id: id, name: name, price: price, ingredients: ingredients})
     }
 
-    React.useEffect(() => {
+    function RenderPizzas() {
         getAllPizzas();
-    }, [])
+        return (
+            <View>
+            <Text style={styles.allItemsText}>Choose from all pizzas:</Text>
+                <View style={styles.pizzaContainer}>
+                    {pizzas.map(pizza =>
+                        <View key={pizza.id} style={styles.pizzaCard}>
+                            <Image source={{uri: `${baseURL}${pizza.id}`}} style={styles.pizzaImage}></Image>
+                            <Text style={styles.pizzaHeader}>{pizza.name}</Text>
+                            <View style={styles.pizzaIngredients}>
+                            </View>
+                            <Text style={styles.pizzaSubtext}>{pizza.price}</Text>
+                            <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}> 
+                            <Pressable onPress={(e) => handleLink(pizza.id, pizza.name, pizza.price, pizza.ingredients)} style={styles.pizzaButton}>
+                                <Text style={{color: 'white', fontSize: 18}}>Add to cart</Text>
+                            </Pressable>
+                            </View>
+                        </View>
+                    )}
+                </View>
+            </View>
+      );
+    }
 
     return (
-        <View>
-        <Text style={styles.allItemsText}>Choose from all pizzas:</Text>
-            <View style={styles.pizzaContainer}>
-                {pizzas.map(pizza =>
-                    <View key={pizza.id} style={styles.pizzaCard}>
-                        <Image source={{uri: `${baseURL}${pizza.id}`}} style={styles.pizzaImage}></Image>
-                        <Text style={styles.pizzaHeader}>{pizza.name}</Text>
-                        <View style={styles.pizzaIngredients}>
-                        </View>
-                        <Text style={styles.pizzaSubtext}>{pizza.price}</Text>
-                        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}> 
-                        <Pressable onPress={(e) => handleLink(pizza.id, pizza.name, pizza.price, pizza.ingredients)} style={styles.pizzaButton}>
-                            <Text style={{color: 'white', fontSize: 18}}>Add to cart</Text>
-                        </Pressable>
-                        </View>
-                    </View>
-                )}
-        </View>
-        </View>
-  );
+        <RenderPizzas />
+    )
+
 }
 
 const styles = StyleSheet.create({
