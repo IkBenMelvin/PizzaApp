@@ -45,8 +45,12 @@ export default function CartPage( {navigation} ) {
               }
             })
           })
-          const discounted = applyDiscount(JSON.parse(cart));
-          setTotalPrice(discounted);
+          if (JSON.parse(cart).length < 1) {
+            setTotalPrice(0);
+          } else {
+            const discounted = applyDiscount(JSON.parse(cart));
+            setTotalPrice(discounted);
+          }
           setLoading(false);
       }
   }
@@ -69,8 +73,12 @@ export default function CartPage( {navigation} ) {
                   }
                 })
               })
-              const discounted = applyDiscount(JSON.parse(cart));
-              setTotalPrice(discounted);
+              if (JSON.parse(cart).length < 1) {
+                setTotalPrice(0);
+              } else {
+                const discounted = applyDiscount(JSON.parse(cart));
+                setTotalPrice(discounted);
+              }
               await AsyncStorage.setItem('cart', JSON.stringify(cartArray));
           } else {
               cartArray.map((cartItem, idx) => {
@@ -85,8 +93,12 @@ export default function CartPage( {navigation} ) {
                   }
                 })
               })
-              const discounted = applyDiscount(JSON.parse(cart));
-              setTotalPrice(discounted);
+              if (JSON.parse(cart).length < 1) {
+                setTotalPrice(0);
+              } else {
+                const discounted = applyDiscount(JSON.parse(cart));
+                setTotalPrice(discounted);
+              }
               await AsyncStorage.setItem('cart', JSON.stringify(cartArray));
           }
       }
