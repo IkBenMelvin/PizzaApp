@@ -38,8 +38,8 @@ export default function EditOrderPage( {route, navigation} ) {
                 onValueChange={setSelectedValue}
             >
                 <Picker.Item label="Pending" value="pending" />
-                <Picker.Item label="In Progress" value="in-progress" />
-                <Picker.Item label="In Oven" value="in-oven" />
+                <Picker.Item label="In Progress" value="in progress" />
+                <Picker.Item label="In Oven" value="in oven" />
                 <Picker.Item label="Done" value="done" />
             </Picker>
         </View>
