@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ScrollView } from "react-native";
 import Navbar from "../../components/navBar";
 import supabase from "../../utils/supabase";
 
-const UserPage = ( {navigation} ) => {
+export default function UserPage( {route, navigation} ) {
   const [users, setUsers] = React.useState();
   const [loading, setLoading] = React.useState(true);
 
@@ -114,5 +114,3 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
-
-export default UserPage;

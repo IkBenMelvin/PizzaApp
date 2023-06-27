@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
 import supabase from "../../utils/supabase";
 
-const ProductPage = ( {navigation} ) => {
+const ProductPage = ( {route, navigation} ) => {
   const [pizzas, setPizzas] = React.useState();
   const [loading, setLoading] = React.useState(true);
 

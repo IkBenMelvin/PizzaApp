@@ -7,7 +7,7 @@ import supabase from "../../utils/supabase.js"
 import Navbar from '../../components/navBar.jsx';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-const UploadPage = ({navigation}) => {
+export default function UploadPage({route, navigation}) {
     const [name, setName] = React.useState("");
     const [ingredients, setIngredients] = React.useState("");
     const [price, setPrice] = React.useState("");
@@ -150,5 +150,3 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
 });
-
-export default UploadPage;

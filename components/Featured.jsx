@@ -2,52 +2,57 @@ import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView, StyleSheet, Text, View, Button, Alert, TextInput, Image, Pressable } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import supabase from '../utils/supabase';
 
-export default function Featured() {
+export default function Featured( {navigation} ) {
+    const [featuredPizza, setFeaturedPizza] = React.useState(null);
+    const [loading, setLoading] = React.useState(true);
+    const baseURL = "https://xbxjnbuwdqtdstrkqcpa.supabase.co/storage/v1/object/public/images/";
     
-    async function GetCart() {
-        const cart = await AsyncStorage.getItem('cart');
-        if (cart) {
-            console.log(cart);
-        }
+    async function getRandomPizza() {
+        const {data, error} = await supabase.from("pizzas").select("*");
+        const random = Math.floor(Math.random() * data.length - 1);
+        const pizza = data[random];
+        setFeaturedPizza(pizza);
+        setLoading(false);
     }
 
-    async function HandleAddToCart(pizzaId, pizzaName, pizzaPrice, ingredients) {
-        const cart = await AsyncStorage.getItem('cart');
-        if (cart) {
-            const newCart = JSON.parse(cart);
-            let found;
-            // [...JSON.parse(cart), {id: pizzaId, name: pizzaName, price: pizzaPrice, quantity: 1, ingredients, ingredients}]
-            newCart.forEach((item, idx) => {
-                if (item.id == pizzaId && item.size == size && item.ingredients == ingredients) {
-                    newCart[idx].quantity += 1;
-                    found = true;
-                }
-            })
-            if (!found) {
-                await AsyncStorage.setItem('cart', JSON.stringify([...JSON.parse(cart), {id: pizzaId, name: pizzaName, price: pizzaPrice, quantity: 1, size: size, ingredients: ingredients}]));
-            } else {
-                await AsyncStorage.setItem('cart', JSON.stringify(newCart));
-            }
+    function handleLink(id, name, price, ingredients) {
+        navigation.navigate('PizzaDetails', {id: id, name: name, price: price, ingredients: ingredients})
+    }
+
+    React.useEffect(() => {
+        getRandomPizza();
+    }, [])
+
+    function ReturnFeatured() {
+        if (!loading) {   
+            return (
+                <>
+                    <View style={styles.featuredCard}>
+                        <Image source={{uri: `${baseURL}${featuredPizza.id}`}} style={styles.featuredImage}/>
+                        <Text style={styles.featuredHeaderText}>{featuredPizza.name}</Text>
+                        <Text style={styles.featuredSubText}>{featuredPizza.ingredients.join(", ")}</Text>
+                        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                            <Pressable onPress={(e) => handleLink(featuredPizza.id, featuredPizza.name, featuredPizza.price, featuredPizza.ingredients)} style={styles.featuredButton}>
+                                <Text style={{color: 'white', fontSize: 18}}>Add to cart</Text>
+                            </Pressable>
+                        </View>
+                    </View>
+                </>
+            )
         } else {
-            await AsyncStorage.setItem('cart', JSON.stringify([{id: pizzaId, name: pizzaName, price: pizzaPrice, quantity: 1, size: size, ingredients: ingredients}]));
+            return (
+                <View>
+                    <Text>Loading...</Text>
+                </View>
+            )
         }
-        GetCart();
     }
 
     return (
         <>
-            <View style={styles.featuredCard}>
-                <Image source={require('../assets/images/placeholder.jpg')} style={styles.featuredImage}/>
-                <Text style={styles.featuredHeaderText}>Very cool pizza</Text>
-                <Text style={styles.featuredSubText}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Phasellus vitae felis at nisl dictum aliquam. Sed eget lacus at eros lacinia lacinia. Sed ewdawde</Text>
-                <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                    <Pressable onPress={(e) => HandleAddToCart(2, 'Awesome margerita pizza', 10, ["Tomato sauce", "Mozzeralla", "Basil"])} style={styles.featuredButton}>
-                        <Text style={{color: 'white', fontSize: 18}}>Add to cart</Text>
-                    </Pressable>
-                </View>
-                {/* <Button style={styles.featuredButton} title="Add to cart" color="#001be7" /> */}
-            </View>
+            <ReturnFeatured />
         </>
     )
 }
@@ -65,7 +70,7 @@ const styles = StyleSheet.create({
     },
     featuredImage: {
         width: '100%',
-        height: '50%',
+        height: '60%',
         borderTopRightRadius: 10,
         borderTopLeftRadius: 10,
     },

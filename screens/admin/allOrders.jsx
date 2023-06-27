@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
 import supabase from "../../utils/supabase";
 
-const OrderPage = ( {route, navigation} ) => {
+export default function OrderPage( {route, navigation} ) {
   const [data, setData] = React.useState();
   const [pizzas, setPizzas] = React.useState();
   const [users, setUsers] = React.useState();
@@ -128,5 +128,3 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 });
-
-export default OrderPage;
