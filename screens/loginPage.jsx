@@ -57,11 +57,6 @@ export default function Loginpage( { navigation} ) {
       <TouchableOpacity style={styles.registerButton} onPress={() => navigation.navigate("Register")}>
         <Text style={styles.registerButtonText}>Register</Text>
       </TouchableOpacity>
-
-      <TouchableOpacity style={styles.forgotPasswordButton}>
-        <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-      </TouchableOpacity>
-
     </View>
   );
 };
@@ -106,12 +101,6 @@ const styles = StyleSheet.create({
   },
   forgotPasswordButton: {
     marginTop: 20,
-    // marginBottom: 20,
-  },
-  forgotPasswordText: {
-    fontSize: 14,
-    color: '#3282B8',
-    textDecorationLine: 'underline',
   },
   registerButton: {
     paddingVertical: 12,

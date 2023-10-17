@@ -1,43 +1,56 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import supabase from '../utils/supabase';
 
 export default function RegisterPage({ navigation }) {
+  // TODO: Clean this up and change it
+  const [information, setInformation] = useState({"email": "", "name": "", });
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [street, setStreet] = useState('');
   const [postalCode, setPostalCode] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [error, setError] = useState('');
 
   async function handleSignUp() {
-    let currentUser;
-    await supabase.auth.signUp({
-      email: email,
-      password: password,
-    }).then((data) => {
-      currentUser = data.data.user.id;
-    });
-    let newphoneNumber = phoneNumber;
-    if (phoneNumber.includes(" ")) {
-      newphoneNumber = phoneNumber.replaceAll(" ", "");
+    if (password !== confirmPassword) {
+      setError("Password and confirm password are not the same.")
+    } else {
+      if (password.length <= 7) {
+        setError("Password must be 8 characters.")
+      } else {
+        let currentUser;
+        await supabase.auth.signUp({
+          email: email,
+          password: password,
+        }).then((data) => {
+          currentUser = data.data.user.id;
+        });
+        let newphoneNumber = phoneNumber;
+        if (phoneNumber.includes(" ")) {
+          newphoneNumber = phoneNumber.replaceAll(" ", "");
+        }
+        if (newphoneNumber.includes("-")) {
+          newphoneNumber = newphoneNumber.replaceAll("-", "");
+        }
+        const item = await supabase.from('users').insert({
+          id: currentUser,
+          name: name,
+          email: email,
+          street: street,
+          postal: postalCode,
+          isAdmin: false,
+          number: parseInt(newphoneNumber),
+        });
+        if (item.error) {
+          Alert.alert("Error", item.error.message);
+        }
+        setError("")
+        navigation.navigate("Home");
+      }
     }
-    if (newphoneNumber.includes("-")) {
-      newphoneNumber = newphoneNumber.replaceAll("-", "");
-    }
-    const item = await supabase.from('users').insert({
-      id: currentUser,
-      name: name,
-      email: email,
-      street: street,
-      postal: postalCode,
-      isAdmin: false,
-      number: parseInt(newphoneNumber),
-    });
-    if (item.error) {
-      Alert.alert("Error", item.error.message);
-    }
-    navigation.navigate("Home");
   }
 
   async function getSession() {
@@ -54,6 +67,7 @@ export default function RegisterPage({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.logo}>Registration Form</Text>
+      <Text style={styles.errorText}>{error}</Text>
 
       <View style={styles.inputContainer}>
         <TextInput
@@ -74,6 +88,13 @@ export default function RegisterPage({ navigation }) {
           secureTextEntry
           onChangeText={setPassword}
           value={password}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Confirm password"
+          secureTextEntry
+          onChangeText={setConfirmPassword}
+          value={confirmPassword}
         />
         <TextInput
           style={styles.input}
@@ -102,11 +123,7 @@ export default function RegisterPage({ navigation }) {
         <Text style={styles.loginButtonText}>Register</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.forgotPasswordButton}>
-        <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.registerButton}>
+      <TouchableOpacity style={styles.registerButton} onPress={() => navigation.navigate("Login")}>
         <Text style={styles.ClientButtonText}>Already have an account?</Text>
       </TouchableOpacity>
     </View>
@@ -123,7 +140,7 @@ const styles = {
   logo: {
     fontSize: 30,
     fontWeight: 'bold',
-    marginBottom: 50,
+    marginBottom: 10,
   },
   inputContainer: {
     marginBottom: 20,
@@ -153,10 +170,10 @@ const styles = {
   },
 
   ClientButtonText: {
-      color: '#3282B8',
-      fontSize: 16,
-      fontWeight: 'bold',
-      textAlign: 'center',
+    color: '#3282B8',
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   forgotPasswordButton: {
     marginBottom: 20,
@@ -172,5 +189,12 @@ const styles = {
     borderRadius: 5,
     borderWidth: 1,
     borderColor: '#3282B8',
+  },
+  errorText: {
+    fontSize: 18,
+    color: 'red',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 30,
   },
 };
