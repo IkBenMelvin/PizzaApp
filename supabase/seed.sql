@@ -1,4 +1,17 @@
 create table
+  public.users (
+    id uuid not null default gen_random_uuid (),
+    name character varying null,
+    email character varying null,
+    number bigint null,
+    created_at timestamp with time zone null default now(),
+    street character varying null,
+    postal character varying null,
+    "isAdmin" boolean null,
+    constraint users_pkey primary key (id)
+  ) tablespace pg_default;
+
+create table
   public.orders (
     id uuid not null default gen_random_uuid (),
     pizzas text[] null,
@@ -19,17 +32,4 @@ create table
     ingredients character varying[] null,
     bonus boolean null,
     constraint pizzas_pkey primary key (id)
-  ) tablespace pg_default;
-
-create table
-  public.users (
-    id uuid not null default gen_random_uuid (),
-    name character varying null,
-    email character varying null,
-    number bigint null,
-    created_at timestamp with time zone null default now(),
-    street character varying null,
-    postal character varying null,
-    "isAdmin" boolean null,
-    constraint users_pkey primary key (id)
   ) tablespace pg_default;
