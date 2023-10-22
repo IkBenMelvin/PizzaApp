@@ -24,7 +24,7 @@ To use this project, you will need the following:
 
 ## Installation
 
-<span style="color: red">Note: having supabase run locally doesn't work right now.</span>
+### NOTE: having supabase run locally doesn't work right now.
 
 Follow these steps to get the project up and running:
 
