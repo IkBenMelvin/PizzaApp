@@ -4,7 +4,7 @@ import supabase from '../utils/supabase';
 
 export default function RegisterPage({ navigation }) {
   // TODO: Clean this up and change it
-  const [information, setInformation] = useState({"email": "", "name": "", });
+  // const [information, setInformation] = useState({"email": "", "name": "", });
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
@@ -26,6 +26,9 @@ export default function RegisterPage({ navigation }) {
           email: email,
           password: password,
         }).then((data) => {
+          if (data.error) {
+            console.log(data.error)
+          }
           currentUser = data.data.user.id;
         });
         let newphoneNumber = phoneNumber;
@@ -53,6 +56,7 @@ export default function RegisterPage({ navigation }) {
     }
   }
 
+  
   async function getSession() {
     const { data, error} = await supabase.auth.getSession();
     if (data.session) {
